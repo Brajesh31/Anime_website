@@ -1,0 +1,29 @@
+
+
+  {
+    "rewrites": [
+          {
+            "source": "/anime", 
+            "destination": "/" 
+          },
+          {
+            "source":"/aviv2/manga/info/:query",
+            "destination":"https://express-img.vercel.app/aviv2/manga/info/:query"
+          },
+          {
+            "source": "/manga",
+            "destination":"/"
+          },
+          {
+            "source": "/aviv2/manga/cover/:manga_id",
+            "destination": "https://express-img.vercel.app/aviv2/manga/cover/:manga_id"
+          },
+          {
+            "source": "/avi2/manga/image/:id/:file",
+            "destination":"https://express-img.vercel.app/aviv2/manga/image/:id/:file"
+          }
+
+      
+    ]
+  }
+  
