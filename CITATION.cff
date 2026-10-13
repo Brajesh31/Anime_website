@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+title: "Anime Website"
+message: "If you use this project, please cite the repository and its author."
+type: software
+authors:
+  - family-names: Kumar
+    given-names: Brajesh
+repository-code: "https://github.com/Brajesh31/Anime_website"
+license: MIT
+keywords:
+  - react
+  - vite
+  - anime
+  - manga
