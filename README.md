@@ -46,4 +46,4 @@ Do not use this project to bypass paywalls, authentication, regional restriction
 
 Original code and documentation are MIT licensed. Third-party libraries, APIs, artwork, logos, and media remain subject to their own licenses and terms.
 
-Last updated: 2026-10-27 19:52 UTC
+Last updated: 2026-10-27 23:34 UTC
