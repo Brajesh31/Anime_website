@@ -1,0 +1,48 @@
+name: 🐛 Bug report
+description: Report a reproducible problem in an existing route or workflow.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not include API keys, private information, or unauthorized media."
+  - type: input
+    id: route
+    attributes:
+      label: Affected route
+      description: Example, /anime or /manga
+      placeholder: /anime
+    validations:
+      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. Open ... 2. Select ... 3. Observe ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and device
+      placeholder: Chrome 157, Windows 11
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized console/network evidence
+      description: Remove tokens, cookies, personal data, and private headers.
