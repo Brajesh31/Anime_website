@@ -1,54 +1,50 @@
-# 🎥 Demo gallery and screenshot workflow
+# 🎬 Demo gallery and screenshot capture policy
 
-## Current asset status
+## Current evidence
+The repository contains anime.png as existing project artwork and SVG technical diagrams. It does not yet contain verified browser screenshots of the running application. Do not treat project artwork, generated mockups, SVG diagrams, or browser chrome mockups as product screenshots.
 
-The root-level `anime.png` is an existing project image. It is not verified to be a screenshot of a running route. No browser captures are currently checked into this folder. The paths below are reserved for genuine captures, not fabricated evidence.
+## Planned gallery
 
-## Planned capture set
-
-| Filename | Route | Capture content |
+| File | Route | Capture requirement |
 |---|---|---|
-| `home.png` | `/` | Full home viewport showing the current entry links |
-| `anime-catalog.png` | `/anime` | Catalog page, search area, and recent feed state |
-| `anime-details.png` | `/anime/:title` | Metadata and episode grouping with a lawful provider response |
-| `manga-catalog.png` | `/manga` | Current manga route, including unfinished-state context |
-| `playback.png` | `/anime/watch/:title` | Player using media that is explicitly permitted for testing |
+| home.png | / | Actual root page rendered in browser |
+| anime-catalog.png | /anime | Actual search/recent page |
+| anime-details.png | /anime/:title | Real metadata response and episode groups |
+| manga-catalog.png | /manga | Current experimental manga route |
+| playback.png | Player route | Authorized test stream only |
 
-## How to capture
+## Capture procedure
+1. Install dependencies with npm ci.
+2. Start the app with npm run dev.
+3. Open the local URL in a browser.
+4. Navigate to the exact route.
+5. Wait for the page to settle and note provider errors.
+6. Capture a desktop viewport, preferably 1440 by 900.
+7. Capture a mobile viewport when reviewing responsive behavior.
+8. Remove personal information, tokens, private headers, and unrelated tabs.
+9. Confirm any visible media is authorized for the intended screenshot.
+10. Save the image using the planned filename.
+11. Add alt text and link it from README.
+12. Record capture date, route, viewport, and commit in this guide.
 
-1. Install dependencies using `npm ci`.
-2. Start the application with `npm run dev`.
-3. Open a route in a desktop browser.
-4. Use browser developer tools to confirm there are no personal details, API tokens, private headers, or unauthorized media in the view.
-5. Capture the page at a consistent desktop viewport, recommended 1440 × 900.
-6. Capture a mobile view where layout behavior is meaningful, recommended 390 × 844.
-7. Save PNG files using the exact names above.
-8. Verify text is legible and no browser console or devtools overlay is visible.
-9. Update this table with capture date, viewport, browser, and route.
-10. Commit only screenshots that are genuine and safe to distribute.
+## What not to do
+- Do not create a fake browser screenshot using generated art.
+- Do not use a mockup as proof that a route works.
+- Do not capture copyrighted video or manga content without permission.
+- Do not expose secrets or personal account details.
+- Do not add empty placeholder image files just to satisfy a link.
 
-## Screenshot metadata record
+## Visual asset types
+- **Project artwork:** identity or decorative image, not interface evidence.
+- **Technical diagram:** explains architecture or flow.
+- **Mockup:** proposed UI concept, clearly labeled as illustrative.
+- **Browser screenshot:** genuine capture of the running application at a named route.
 
-For every future capture, add a short entry:
-
-| Field | Value |
-|---|---|
-| Route | Exact route path |
-| Captured at | YYYY-MM-DD |
-| Browser | Name and version |
-| Viewport | Width × height in CSS pixels |
-| Data source | Local fixture or provider name |
-| Media permission | Reference to permission/terms review where applicable |
-
-## Mockups versus screenshots
-
-- **Screenshot:** direct capture of the running application.
-- **Mockup:** designed illustration that communicates a proposed layout.
-- **Project artwork:** image used for branding or decoration.
-- **Diagram:** technical explanation of flow or architecture.
-
-Label each asset correctly. Never place generated artwork in the screenshot gallery as if it proves a feature is implemented.
-
-## Image hygiene
-
-Prefer optimized PNG or WebP. Keep captures focused, avoid unnecessary full-page mega-images, use descriptive alt text in Markdown, and review files for secrets or personally identifying information before committing.
+## Screenshot acceptance checklist
+- [ ] Correct route is visible.
+- [ ] App is running, not a static mockup.
+- [ ] No secret or private data is visible.
+- [ ] Content use is permitted.
+- [ ] Image is readable at repository display size.
+- [ ] Alt text is accurate.
+- [ ] README and asset inventory are updated.

@@ -1,262 +1,403 @@
-# 🌸 Anime Website
-
+<p align="center"><img src="anime.png" alt="Anime Website project artwork" width="220" /></p>
+<h1 align="center">🌸 Anime Website</h1>
+<p align="center"><strong>A React-based exploration of anime discovery, episode information, playback integration, and manga catalog experiments.</strong></p>
 <p align="center">
-  <img src="anime.png" alt="Anime Website project artwork" width="220" />
+<a href="https://react.dev/"><img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=111827" alt="React 18" /></a>
+<a href="https://vite.dev/"><img src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" alt="Vite 5" /></a>
+<a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind CSS 3" /></a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-ESM-F7DF1E?logo=javascript&logoColor=111827" alt="JavaScript ESM" /></a>
+<a href="https://github.com/Brajesh31/Anime_website/actions/workflows/ci.yml"><img src="https://github.com/Brajesh31/Anime_website/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI status" /></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-2ea44f.svg" alt="MIT License" /></a>
 </p>
-
-<h1 align="center">Anime Website</h1>
-<p align="center"><strong>A React and Vite exploration hub for anime, manga, and light novels.</strong></p>
-
-<p align="center">
-  ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=111827)
-  ![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
-  ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
-  ![JavaScript](https://img.shields.io/badge/JavaScript-ESM-F7DF1E?logo=javascript&logoColor=111827)
-  ![License](https://img.shields.io/badge/License-MIT-green.svg)
-</p>
-
-<p align="center">
-  <a href="#-demo-gallery">Demo gallery</a> ·
-  <a href="#-features-and-implementation-status">Features</a> ·
-  <a href="#-run-locally">Run locally</a> ·
-  <a href="docs/README.md">Documentation</a>
-</p>
+<p align="center"><a href="#overview">Overview</a> · <a href="#feature-matrix">Features</a> · <a href="#visual-gallery">Visuals</a> · <a href="#architecture">Architecture</a> · <a href="#getting-started">Getting started</a> · <a href="docs/README.md">Documentation</a></p>
 
 ---
 
-## ✨ Project overview
+## Overview
 
-Anime Website is a client-side single-page application built with React 18, React Router, Vite, and Tailwind CSS. The codebase explores catalog discovery, anime metadata, episode grouping, browser-based playback through a third-party source, MangaDex-related catalog access, and an initial light-novel route.
+Anime Website is a browser-based single-page application built with React 18 and Vite. It brings together experiments around anime search, recent episode discovery, anime detail pages, episode navigation, remote playback metadata, and MangaDex-oriented search.
 
-The current implementation is a learning/prototype project, not a production streaming platform. Its user experience and data availability depend on third-party services and remote media hosts. Some routes are incomplete or experimental. This README reports the code as it exists rather than claiming planned capabilities are already delivered.
+**Project maturity:** learning and integration prototype. It is not a complete streaming product or production-grade media service. Several screens are partial, some components are experiments, and important behavior depends on external APIs that this project does not operate.
 
-## 🎬 Demo gallery
+This README separates implemented behavior from experiments and planned work. A dependency being installed does not prove a feature is complete.
 
-The repository currently contains `anime.png`, which is project artwork. It is **not** represented as a screenshot of the running application.
+## Contents
 
-| Asset | Purpose | Status |
-|---|---|---|
-| [Project artwork](anime.png) | Existing repository image and visual identity | Available |
-| `docs/demo/home.png` | Browser screenshot of `/` | Capture pending |
-| `docs/demo/anime-catalog.png` | Browser screenshot of `/anime` | Capture pending |
-| `docs/demo/anime-details.png` | Browser screenshot of `/anime/:title` with a working provider response | Capture pending |
-| `docs/demo/manga-catalog.png` | Browser screenshot of `/manga` | Capture pending |
-| `docs/demo/playback.png` | Browser screenshot with a legally usable test stream | Capture pending |
+- [Overview](#overview)
+- [Feature matrix](#feature-matrix)
+- [Visual gallery](#visual-gallery)
+- [Application routes](#application-routes)
+- [Architecture](#architecture)
+- [Technology stack](#technology-stack)
+- [Repository layout](#repository-layout)
+- [Getting started](#getting-started)
+- [Configuration](#configuration)
+- [Core user journeys](#core-user-journeys)
+- [External services and data boundaries](#external-services-and-data-boundaries)
+- [Quality checks](#quality-checks)
+- [Accessibility](#accessibility)
+- [Security and content rights](#security-and-content-rights)
+- [Known limitations](#known-limitations)
+- [Troubleshooting](#troubleshooting)
+- [Contributing and governance](#contributing-and-governance)
+- [Roadmap](#roadmap)
+- [Documentation map](#documentation-map)
+- [License](#license)
 
-See [Demo asset guide](docs/demo/README.md) for capture instructions, required viewport sizes, naming conventions, and image quality checks. A placeholder or mockup must never be described as a real product screenshot.
+## Feature matrix
 
-## 🧭 Routes
-
-| Route | Component | Intended responsibility | Implementation note |
+| Capability | Status | Current behavior | Important gap |
 |---|---|---|---|
-| `/` | `Home` | Entry point linking to content areas | Current content is a minimal landing placeholder |
-| `/anime` | `AnimeHome` | Search catalog and show recent episodes | Calls a configured third-party anime API |
-| `/ln` | `LightNHome` | Light-novel area | Placeholder only |
-| `/manga` | `Mangadex22` | Manga search/catalog experiment | MangaDex-style data request and incomplete UI |
-| `/manga/desc/:manga_id` | `MangaDesc` | Manga metadata and cover experiment | Detail UI remains incomplete |
-| `/anime/:title` | `AnimeDescPage` | Anime metadata and episode groups | External metadata request |
-| `/anime/watch/:title` | `AnimePlayer` | Episode playback view | Selects a source from the remote response |
-| `/anime/recent/watch/:id/:title` | `RecentAnimePlayer` | Recent episode playback and anime information | External metadata and playback requests |
+| React bootstrap | 🟢 Implemented | React root mounted from src/main.jsx | No application-wide state architecture |
+| Browser routing | 🟢 Implemented | Routes declared in src/App.jsx | Player route declarations need validation |
+| Landing page | 🟡 Basic | Home component is root route | Minimal landing experience |
+| Anime search | 🟡 Partial | AnimeHome submits a query and stores provider results | Alert-based submit and limited error/loading UX |
+| Recent episodes | 🟡 Partial | Recent feed requested on mount | Incomplete empty/error states |
+| Anime details | 🟡 Partial | Metadata loaded and episodes grouped by ten | Assumes provider fields and arrays |
+| Standard playback | 🟡 Partial | ReactPlayer receives a selected remote URL | Assumes sources[2] exists |
+| Recent playback | 🟡 Partial | Requests episode and anime metadata | Fixed source index and limited recovery |
+| Manga search | 🧪 Experimental | Mangadex22 calls a local proxy path | Incomplete rendering and cover workflow |
+| Manga details | 🧪 Experimental | Detail component is routed | Not a complete chapter/reader experience |
+| Light novels | ⚪ Placeholder | LightNHome route exists | No catalog or reader |
+| Authentication | ❌ Not implemented | No account/session flow | No identity backend |
+| Watchlist/history | ❌ Not implemented | No durable user state | No persistence |
+| Backend/database | ❌ Not implemented | Browser-only app | No owned API or schema |
+| Payments/subscriptions | ❌ Not implemented | No billing flow | Not in current scope |
 
-The router is defined in `src/App.jsx`. Route behavior may be affected by host rewrites and third-party endpoint availability.
+## Visual gallery
 
-## ✅ Features and implementation status
+### Existing project artwork
 
-| Area | Current state | Notes |
+<p align="center"><img src="anime.png" alt="Existing project artwork, not a browser screenshot" width="260" /></p>
+
+### Genuine browser screenshots
+
+| Screen | Planned file | Status |
 |---|---|---|
-| React single-page app | Implemented | Mounted through `src/main.jsx` |
-| Client-side routing | Implemented | React Router 6 browser router |
-| Landing route | Basic | Simple links to manga, anime, and light novels |
-| Anime search | Partial | Search form calls remote API; error/loading UX needs work |
-| Recent episodes | Partial | Fetches recent episodes from configured service |
-| Anime details | Partial | Fetches image, description, and episodes |
-| Episode grouping | Implemented | Groups metadata into sets of ten |
-| Video player | Partial | Uses ReactPlayer and a selected source from provider response |
-| Manga catalog | Experimental | MangaDex-style calls and incomplete rendering |
-| Manga details/covers | Experimental | Proxy and blob handling experiments |
-| Light novels | Not implemented | Placeholder page |
-| User accounts | Not implemented | No authentication or profile system |
-| Watchlist/history | Not implemented | No persistence layer |
-| Payments/subscriptions | Not implemented | No billing workflow |
-| Backend/database | Not included | No owned API or database service in this repository |
+| Home | docs/demo/home.png | ⏳ Capture pending |
+| Anime search and recent feed | docs/demo/anime-catalog.png | ⏳ Capture pending |
+| Anime details and episode groups | docs/demo/anime-details.png | ⏳ Capture pending |
+| Manga search experiment | docs/demo/manga-catalog.png | ⏳ Capture pending |
+| Player with authorized test media | docs/demo/playback.png | ⏳ Capture pending |
 
-## 🧱 Technology stack
+The existing artwork is not a live UI capture. Screenshots will only be added after running the application in a browser and verifying the route. Do not present generated illustrations or architecture diagrams as product screenshots. See [demo capture policy](docs/demo/README.md).
 
-| Technology | Role |
-|---|---|
-| React 18 | Component UI and state |
-| Vite 5 | Local development server and production build |
-| React Router DOM 6 | Browser-side routes |
-| Tailwind CSS 3 | Utility-first styling |
-| Axios | HTTP requests |
-| Framer Motion | Animation dependency available to the project |
-| React Player | Media player component |
-| MangaDex Full API | Manga integration dependency |
-| novel-cool | Novel/manga exploration dependency |
-| ESLint 9 | Static code linting |
-| PostCSS and Autoprefixer | CSS processing |
+### Technical diagrams
 
-The dependency list is recorded in `package.json`. A dependency being installed does not mean every related feature is currently used or complete.
+- [System architecture SVG](docs/diagrams/system-architecture.svg)
+- [Anime user journey SVG](docs/diagrams/anime-user-flow.svg)
+- [Playback flow SVG](docs/diagrams/playback-flow.svg)
+- [Rendered Mermaid flowcharts and sequence diagrams](docs/diagrams/flows.md)
 
-## 🗂️ Repository structure
+## Application routes
+
+Paths below are transcribed from src/App.jsx. They are not a guarantee that each route works correctly in production.
+
+| Declared path | Component | Responsibility | Status |
+|---|---|---|---|
+| / | Home | Landing page | Basic |
+| /anime | AnimeHome | Search and recent feed | Partial |
+| /ln | LightNHome | Light novel area | Placeholder |
+| /manga | Mangadex22 | Manga search experiment | Experimental |
+| /manga/desc/:manga_id | MangaDesc | Manga detail experiment | Experimental |
+| /anime/:title | AnimeDescPage | Anime info and episode groups | Partial |
+| anime/recent/watch/:id/:title | RecentAnimePlayer | Recent episode player | Partial, path convention needs review |
+| anime/watch/:title | AnimePlayer | Episode player | Partial, path convention needs review |
+
+**Important route observation:** the two player declarations do not begin with a leading slash, unlike the other top-level routes. Their matching behavior and the links that navigate to them should be tested together. See [route reference](docs/routes.md).
+
+## Architecture
+
+Anime Website is a browser-rendered React SPA. Route components own most request logic and local state. External services provide metadata and playback-source responses.
+
+```mermaid
+flowchart TD
+    U[Visitor] --> B[Browser]
+    B --> H[index.html]
+    H --> E[src/main.jsx]
+    E --> R[React root]
+    R --> RT[src/App.jsx router]
+    RT --> P{Requested route}
+    P --> HOME[Home]
+    P --> AN[AnimeHome]
+    P --> AD[AnimeDescPage]
+    P --> AP[AnimePlayer]
+    P --> RP[RecentAnimePlayer]
+    P --> MG[Mangadex22 / MangaDesc]
+    P --> LN[LightNHome placeholder]
+    AN --> AX[Axios]
+    AD --> AX
+    AP --> AX
+    RP --> AX
+    MG --> PX[Vite or Vercel proxy path]
+    AX --> EXT[External anime provider]
+    PX --> MEXT[External manga proxy]
+    AP --> PLAYER[ReactPlayer]
+    RP --> PLAYER
+    PLAYER --> MEDIA[Remote media host]
+```
+
+This is the current-state view. There is no project-owned application server or database between the browser and the anime provider.
+
+## Technology stack
+
+| Technology | Declared version family | Role |
+|---|---|---|
+| React / React DOM | 18.3 | UI and rendering |
+| Vite | 5.4 | Development server and bundler |
+| React Router DOM | 6.26 | Browser routing |
+| Tailwind CSS | 3.4 | Utility styling |
+| Axios | 1.7 | HTTP requests |
+| ReactPlayer | 2.16 | Player UI |
+| Framer Motion | 11.3 | Animation dependency |
+| MangaDex Full API | 6.x | Manga integration dependency |
+| novel-cool | 2.x | Novel/manga exploration dependency |
+| ESLint | 9.x | Static analysis |
+| PostCSS / Autoprefixer | 8.x / 10.x | CSS processing |
+
+The lockfile is the resolved dependency record. See [dependency notes](docs/dependencies.md).
+
+## Repository layout
 
 ```text
 Anime_website/
-├── .github/
-│   ├── workflows/
-│   │   └── update-readme.yml
-│   └── PULL_REQUEST_TEMPLATE.md
+├── .github/                 # Issue forms, PR template, workflows
 ├── docs/
-│   ├── adr/
-│   ├── demo/
-│   ├── diagrams/
-│   ├── accessibility.md
-│   ├── api.md
-│   ├── architecture.md
-│   ├── data-flow.md
-│   ├── deployment.md
-│   ├── development.md
-│   ├── features.md
-│   ├── limitations.md
-│   ├── project-structure.md
-│   ├── qa.md
-│   ├── security-review.md
-│   └── ...
-├── public/
+│   ├── adr/                 # Architecture decision records
+│   ├── demo/                # Screenshot capture guide
+│   ├── diagrams/            # SVG and Mermaid diagrams
+│   └── *.md                 # Product, engineering, QA and operations docs
+├── public/                  # Static public assets
+├── scripts/                 # Documentation validation
 ├── src/
 │   ├── components/
-│   │   ├── manga_comps/
-│   │   └── pageComponents/
+│   │   ├── manga_comps/     # Manga experiments and pages
+│   │   └── pageComponents/  # Anime detail and player pages
 │   ├── assets/
-│   ├── App.jsx
-│   ├── App.css
-│   ├── index.css
-│   └── main.jsx
-├── scripts/
-│   └── check_docs.py
-├── anime.png
+│   ├── App.jsx              # Route declarations
+│   └── main.jsx             # React entry point
+├── anime.png                # Existing project artwork
 ├── index.html
 ├── package.json
 ├── package-lock.json
-├── vercel.json
-└── vite.config.js
+├── vercel.json              # Deployment rewrite rules
+└── vite.config.js           # Vite and development proxy
 ```
 
-For a file-by-file explanation, see [Project structure](docs/project-structure.md).
+See [audited project structure](docs/project-structure.md) and [asset inventory](docs/asset-inventory.md).
 
-## 🚀 Run locally
+## Getting started
 
 ### Prerequisites
 
-- Node.js 18 or later.
-- npm (the repository includes `package-lock.json`).
-- Network connectivity for remote catalog and media requests.
+- Node.js 18 or later. CI currently validates with Node.js 20.
+- npm compatible with the committed package lock.
+- Git.
+- Network access for external catalog and playback metadata requests.
+- A modern browser for route and network inspection.
 
-### Installation
+### Install
 
 ```bash
 git clone https://github.com/Brajesh31/Anime_website.git
 cd Anime_website
 npm ci
+```
+
+Use npm ci to install from package-lock.json. Avoid deleting or regenerating the lockfile casually.
+
+### Run locally
+
+```bash
 npm run dev
 ```
 
-Open the local URL shown by Vite, normally `http://localhost:5173`.
+Vite prints the local URL, normally http://localhost:5173.
 
-### Quality checks
+### Build and preview
 
 ```bash
-npm run lint
 npm run build
 npm run preview
+```
+
+The production bundle is written to dist/. Previewing the bundle does not validate every production hosting rewrite or external provider.
+
+### Available commands
+
+| Command | Purpose |
+|---|---|
+| npm run dev | Start Vite |
+| npm run lint | Run ESLint and report current source findings |
+| npm run build | Create dist/ |
+| npm run preview | Preview the production bundle |
+| python scripts/check_docs.py | Validate local Markdown links |
+
+See [installation](docs/installation.md) and [development](docs/development.md).
+
+## Configuration
+
+The repository has minimal runtime configuration. Provider URLs are currently embedded in source/configuration. The .env.example file is guidance only, it does not mean app variables are currently read.
+
+Vite variables prefixed with VITE_ are exposed to browser code. Never place private API keys, tokens, passwords, database credentials, or privileged secrets in them. See [configuration reference](docs/configuration.md).
+
+## Core user journeys
+
+### Anime discovery
+1. Open /anime.
+2. Enter a search query.
+3. Submit the form.
+4. AnimeHome calls the external search endpoint.
+5. If the response contains results, the component stores and renders them.
+6. Select a result to open the detail route.
+
+Current limitations: the submit handler displays an alert, request failures are logged, and loading/error states are incomplete.
+
+### Anime details
+1. The detail page reads its title route parameter.
+2. It requests anime information.
+3. It stores image, description, and episode data.
+4. Episodes are grouped in sets of ten.
+5. Selecting an episode navigates to the player route.
+
+The component assumes that provider fields exist and have the expected shape.
+
+### Playback
+1. The player reads an episode identifier.
+2. It requests playback metadata.
+3. Current code selects response.data.sources[2].url.
+4. The URL is passed to ReactPlayer.
+
+The fixed index is fragile. The code does not implement a complete source-selection policy or unavailable state. Do not interpret it as a stable provider contract.
+
+### Manga experiment
+The manga route requests a local /aviv2/manga/info/ path. Vite forwards selected requests in development; Vercel has separate rewrite rules. The current rendering and cover workflow is incomplete.
+
+## External services and data boundaries
+
+The project does not own the anime provider, manga proxy, remote media hosts, metadata, or artwork. Availability, response schemas, CORS, rate limits, terms, and content access can change independently.
+
+| Integration | Observed use | Ownership |
+|---|---|---|
+| Anime API host | Search, recent episodes, info, playback metadata | External |
+| Manga proxy host | Search and cover/image experiments | External |
+| Remote media URLs | Passed to ReactPlayer | External |
+| npm packages | Build and runtime dependencies | Third party |
+
+No provider service-level guarantee or content license is established by this repository.
+
+## Quality checks
+
+```bash
+npm ci
+npm run lint
+npm run build
 python scripts/check_docs.py
 ```
 
-- `lint` runs ESLint across the project.
-- `build` creates the production bundle in `dist/`.
-- `preview` serves the production build locally.
-- `python scripts/check_docs.py` validates relative Markdown links.
+Current verification boundaries:
+- ESLint has legacy findings in the existing source.
+- The latest recorded CI run passed dependency installation, production build, and documentation-link validation.
+- Lint is advisory in CI, so a green run does not mean lint is clean.
+- No browser end-to-end suite or provider contract suite is present.
+- A successful build does not prove live API or playback availability.
 
-These commands do not test live third-party APIs or prove that every route works in a deployed environment. Follow the [QA plan](docs/qa.md) for manual route checks.
+See [QA](docs/qa.md) and [testing strategy](docs/testing-strategy.md).
 
-## 🔄 Application flow
+## Accessibility
 
-```mermaid
-flowchart TD
-    A[Browser opens app] --> B[src/main.jsx]
-    B --> C[React StrictMode]
-    C --> D[App.jsx router]
-    D --> E{Requested path}
-    E -->|/| F[Home]
-    E -->|/anime| G[AnimeHome]
-    E -->|/anime/:title| H[AnimeDescPage]
-    E -->|/anime/watch/:title| I[AnimePlayer]
-    E -->|/anime/recent/watch/...| J[RecentAnimePlayer]
-    E -->|/manga| K[Mangadex22]
-    E -->|/manga/desc/:id| L[MangaDesc]
-    E -->|/ln| M[LightNHome]
-    G --> N[Remote catalog API]
-    H --> N
-    I --> O[Remote playback API]
-    J --> N
-    J --> O
-    K --> P[Manga proxy/API]
-    L --> P
-```
+Responsive utility classes exist, but a formal accessibility audit has not been completed. Review keyboard navigation, visible focus, form labels, image alternatives, contrast, reduced motion, player controls, and loading/error announcements. Test 320, 390, 768, 1366, and 1920 px widths. See [accessibility](docs/accessibility.md) and [test plan](docs/accessibility-test-plan.md).
 
-## 🖼️ Architecture and flow visuals
+## Security and content rights
 
-The repository includes editable Mermaid sources and standalone SVG diagrams:
+- Treat provider JSON, image URLs, and media URLs as untrusted.
+- Keep private credentials out of Vite client variables.
+- Avoid logging tokens or unnecessary provider payloads.
+- Review dependency advisories and lockfile changes.
+- Do not bypass DRM, paywalls, authentication, regional restrictions, or provider rate limits.
+- Only access or display content where rights and provider terms permit it.
+- The repository MIT license does not grant rights to third-party anime, manga, logos, artwork, APIs, or media.
 
-- [System architecture](docs/diagrams/system-architecture.svg)
-- [Anime discovery journey](docs/diagrams/anime-user-flow.svg)
-- [Playback request flow](docs/diagrams/playback-flow.svg)
+Read [SECURITY.md](SECURITY.md), [security review](docs/security-review.md), and [content rights](docs/content-rights.md).
 
-These are technical illustrations. They are not presented as screenshots of the running interface. Real route captures remain pending in the [demo gallery guide](docs/demo/README.md).
+## Known limitations
 
-## 🌐 External services and content rights
+1. No owned backend, database, accounts, or durable user data.
+2. Light-novel route is a placeholder.
+3. Manga experience is experimental and incomplete.
+4. Anime behavior depends on external response schemas.
+5. Playback selects a source by fixed array index.
+6. Loading, empty, retry, and error UX is incomplete.
+7. Player route declarations and links need browser verification.
+8. No component or browser E2E suite exists.
+9. Accessibility audit is incomplete.
+10. Real browser screenshots are pending.
+11. Vite proxy rules do not automatically apply in production.
+12. Third-party content rights are outside repository control.
 
-The browser currently calls third-party anime and manga services. Their uptime, response shape, CORS behavior, rate limits, media availability, and terms can change independently of this repository.
+See [risk register](docs/risk-register.md) and [limitations](docs/limitations.md).
 
-This project does not host or own external anime episodes, manga pages, artwork, or provider infrastructure. Use only sources and test media that you are authorized to access and display. Do not bypass paywalls, DRM, authentication, regional restrictions, or provider anti-abuse controls. See [API notes](docs/api.md), [limitations](docs/limitations.md), and [security review](docs/security-review.md).
+## Troubleshooting
 
-## ♿ Accessibility and responsive review
-
-The current source contains basic responsive Tailwind utility classes, but the project has not yet had a complete accessibility audit. Keyboard operation, visible focus, meaningful alternative text, contrast, player controls, loading/error announcements, and reduced-motion behavior should be checked before release.
-
-Use the [accessibility checklist](docs/accessibility.md) and test at mobile, tablet, and desktop widths.
-
-## 🧪 Testing and quality
-
-Current automated scripts are limited to ESLint and the Vite production build. The repository does not yet have a component test suite, browser end-to-end tests, or provider contract tests. See [QA plan](docs/qa.md) for the concrete test matrix and [roadmap](ROADMAP.md) for planned engineering work.
-
-## 🛠️ Troubleshooting
-
-| Symptom | Likely cause | First check |
+| Symptom | Likely cause | First investigation |
 |---|---|---|
-| Catalog is empty | Remote API unavailable, query not recognized, or response changed | Open browser Network tab and inspect the request |
-| Images do not load | Provider host, CORS, or expired image URL | Inspect image request status and response headers |
-| Player remains loading | Provider response has no expected source or the source is inaccessible | Inspect response shape; do not assume index `2` always exists |
-| Direct route returns 404 on deployment | Host does not fall back to SPA entry point | Verify hosting rewrite configuration |
-| Manga results do not render | Provider schema mismatch or unfinished component | Inspect `Mangadex22` response and rendering path |
-| `npm ci` fails | Node/npm mismatch or lockfile issue | Use supported Node version and committed lockfile |
+| Search has no results | Provider unavailable, query mismatch, changed schema | Inspect request URL, status and JSON |
+| Recent feed is blank | Failed request or missing results | Inspect Network and Console |
+| Detail page is empty | Invalid ID or missing provider fields | Check route parameter and payload |
+| Player stays on Loading | Missing source or failed request | Inspect sources array and media request |
+| Images fail | Remote host, CORS, expired URL | Inspect image request |
+| Manga screen fails | Proxy mismatch or incomplete component | Compare request path and proxy rules |
+| Nested route returns 404 | Host lacks SPA fallback | Review deployment rewrites |
+| npm ci fails | Node/npm mismatch or lockfile issue | Use supported Node and committed lockfile |
+| CI lint step reports errors | Existing source lint debt | Review ESLint output |
 
-More detail: [Troubleshooting guide](docs/troubleshooting.md).
+See [troubleshooting guide](docs/troubleshooting.md).
 
-## 🤝 Contributing
+## Contributing and governance
 
-Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Include the affected route, third-party service assumptions, licensing/terms checks, screenshots where useful, and the exact commands you ran.
+Contributions should improve a real flow, reliability, accessibility, documentation, or maintainability. Read [CONTRIBUTING.md](CONTRIBUTING.md), inspect whether a component is active in the router, reproduce the behavior, check provider terms, run validation, and include test evidence.
 
-## 📚 Documentation index
+Project policies: [Code of Conduct](CODE_OF_CONDUCT.md) · [Security](SECURITY.md) · [Support](SUPPORT.md) · [Code owners](CODEOWNERS) · [Changelog](CHANGELOG.md) · [Roadmap](ROADMAP.md).
 
-Start at [docs/README.md](docs/README.md) for the full guide index, architecture references, operational notes, QA and governance documents.
+## Roadmap
 
-## 🗺️ Roadmap
+Priority work:
+- Stabilize routes and add direct-navigation tests.
+- Replace fixed-index playback selection with validated source selection.
+- Add explicit loading, empty, error, retry, and unavailable states.
+- Centralize provider calls and normalize response payloads.
+- Add component and browser tests.
+- Complete accessibility and security reviews.
+- Improve manga flow or isolate it as an experiment.
+- Decide whether a light-novel feature is in scope.
+- Capture genuine screenshots after running the app in a browser.
 
-Planned engineering improvements include resilient API adapters, reliable loading/error states, typed provider contracts, route-level tests, improved accessibility, an actual light-novel experience, and better deployment verification. These are plans, not current features. Full list: [ROADMAP.md](ROADMAP.md).
+See [ROADMAP.md](ROADMAP.md). Planned items are not current features.
 
-## 📄 License
+## Documentation map
 
-The repository's original project code is distributed under the MIT License in [LICENSE](LICENSE). Third-party packages, APIs, artwork, logos, and media have separate ownership and terms.
+| Topic | Document |
+|---|---|
+| Documentation hub | [docs/README.md](docs/README.md) |
+| Product scope | [Product brief](docs/product-brief.md) |
+| Feature status | [Feature inventory](docs/features.md) |
+| Routes and parameters | [Route reference](docs/routes.md) |
+| Architecture | [Architecture](docs/architecture.md) |
+| Data journeys | [Data flow](docs/data-flow.md) |
+| External API assumptions | [API reference](docs/api.md) |
+| Configuration | [Configuration](docs/configuration.md) |
+| Dependencies | [Dependencies](docs/dependencies.md) |
+| Testing | [Testing strategy](docs/testing-strategy.md) |
+| Security | [Security review](docs/security-review.md) |
+| Rights and provider terms | [Content rights](docs/content-rights.md) |
+| Deployment | [Deployment](docs/deployment.md) |
+| Operations | [Operations](docs/operations.md) |
+| Risk tracking | [Risk register](docs/risk-register.md) |
+| Diagrams | [Diagram catalogue](docs/diagrams/README.md) |
+| Assets and screenshots | [Asset inventory](docs/asset-inventory.md) |
 
-Last updated: 2026-11-16 07:10 UTC
+## License
+
+Project source code is distributed under the MIT License. See [LICENSE](LICENSE). Third-party packages, services, artwork, logos, metadata, and media remain subject to their respective owners' terms.
+
+<p align="center"><sub>Documentation describes the checked-in implementation and records known gaps. Last reviewed: 2026-11-16.</sub></p>

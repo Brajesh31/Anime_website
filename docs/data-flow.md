@@ -1,58 +1,46 @@
-# 🔀 Data flow
+# 🔄 Data flow and request lifecycle
 
-## Anime search flow
+## 1. Current request topology
 
-```mermaid
-sequenceDiagram
-  actor User
-  participant Page as AnimeHome
-  participant API as Anime catalog API
-  participant Router as React Router
-  participant Detail as AnimeDescPage
-  User->>Page: Enter search query
-  User->>Page: Submit form
-  Page->>API: GET /anime/gogoanime/{query}
-  API-->>Page: Search response
-  Page->>Page: Store results in state
-  Page-->>User: Render available result cards
-  User->>Router: Select a result
-  Router->>Detail: Navigate to /anime/{id}
-  Detail->>API: GET /anime/gogoanime/info/{id}
-  API-->>Detail: Metadata and episode list
-  Detail->>Detail: Group episodes into chunks of ten
-  Detail-->>User: Render detail and episode links
-```
-
-## Recent episode flow
-
-1. `AnimeHome` mounts.
-2. Its effect requests the recent-episodes endpoint.
-3. A response containing `results` is stored in `recentTitle`.
-4. The component maps items into links.
-5. The recent player uses route parameters to request metadata and playback data.
-
-This flow assumes that the provider continues to return the expected `results`, `id`, `episodeId`, image, and title fields.
-
-## Playback flow
+The browser is the application runtime. React pages initiate HTTP requests and keep response data in local state. Anime requests go directly to the configured external host. Manga requests use local paths forwarded through Vite or deployment configuration.
 
 ```mermaid
-flowchart TD
-  A[User selects an episode] --> B[Player route]
-  B --> C[Read route parameter]
-  C --> D[Request episode playback metadata]
-  D --> E{Response contains source?}
-  E -->|Yes| F[Store selected media URL]
-  F --> G[ReactPlayer renders controls]
-  E -->|No| H[Show a useful unavailable state]
-  D -->|Request failure| I[Show error and retry guidance]
+flowchart LR
+ UI[React page] --> STATE[Local component state]
+ UI --> AX[Axios]
+ AX --> ANIME[External anime API]
+ UI --> LOCAL[Local manga path]
+ LOCAL --> ENV{Environment}
+ ENV -->|Vite development| VITE[Vite proxy]
+ ENV -->|Vercel deployment| VER[Vercel rewrite]
+ VITE --> MANGA[External manga proxy]
+ VER --> MANGA
+ ANIME --> DATA[JSON response]
+ MANGA --> DATA
+ DATA --> UI
+ UI --> PLAYER[ReactPlayer]
+ PLAYER --> HOST[Remote media host]
 ```
 
-The final two states are recommended behavior; the current implementation mainly logs request errors and may remain on a loading message. Do not assume robust fallback exists yet.
+## 2. Search flow
+AnimeHome stores search text in inputValue. Form submission prevents the default browser action, displays an alert, then calls the search helper. The helper issues an Axios GET and checks whether data.results exists. If present, results are stored in titles; otherwise an empty array is stored.
 
-## Manga flow
+Request errors are logged. The screen does not expose a complete request-state model, so a failed request can appear similar to a no-results response.
 
-The manga screen submits a query to a local path beginning with `/aviv2/manga/info/`. Vite development configuration proxies selected paths to an external service. The Vercel configuration includes corresponding rewrite experiments. The response is stored as a list, but the current component contains incomplete and inconsistent rendering logic.
+## 3. Recent episode flow
+On mount, an effect requests the recent-episode endpoint. The response is logged and, if data.results exists, stored in recentTitle. A missing results property resets the list. A rejection is logged. The selected item supplies an anime ID and episode ID to a recent-player URL.
 
-## Trust boundary
+## 4. Anime detail flow
+AnimeDescPage reads the route parameter named title, appends it to the anime info endpoint, then stores image, description, and episode array in separate state values. Episodes are split into groups of ten and rendered in collapsible details elements. The component assumes expected fields exist.
 
-All provider data is untrusted input. Validate arrays, object properties, IDs, strings, image URLs, and media URLs before rendering or passing them to a player. Never treat a provider response as proof that the media is licensed for redistribution.
+## 5. Playback flow
+The player reads a route parameter, requests playback metadata, and selects sources[2].url. If present, the URL is stored and passed to ReactPlayer. If the request fails, the error is logged. If the expected source is missing, the current UI does not provide a complete fallback.
+
+## 6. Manga flow
+The manga page submits a query to /aviv2/manga/info/. In local development, Vite forwards selected paths. Vercel has separate rewrites. The component expects a data collection and nested English title field. Current manga rendering is experimental.
+
+## 7. Data lifetime and privacy
+Response data is held in component state. The repository does not persist searches, watch history, or personal preferences to a project-owned database. Avoid exposing secrets or logging unnecessary provider data even without persistence.
+
+## 8. Recommended request-state contract
+Each network-backed screen should distinguish idle, loading, success, empty, error, and unavailable. This is a recommendation and is not consistently implemented today.

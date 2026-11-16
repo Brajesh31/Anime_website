@@ -1,30 +1,50 @@
-# 🗺️ Roadmap
+# 🗺️ Product and engineering roadmap
 
-This roadmap describes proposed improvements, not features that are already implemented.
+This roadmap reflects gaps visible in the current source. Items are plans, not implemented features. Priorities are ordered by reliability and user impact, not by visual novelty.
 
-## Reliability
-- [ ] Centralize anime and manga requests into provider service modules.
-- [ ] Validate and normalize remote response schemas.
-- [ ] Add request timeouts, cancellation, and safe retry behavior.
-- [ ] Handle empty, unavailable, and rate-limited provider responses.
-- [ ] Replace fixed playback source indexing with validated source selection.
+## 🔴 Priority 1: Stabilize existing journeys
 
-## Product completeness
-- [ ] Replace the home placeholder with a finished discovery landing page.
-- [ ] Complete anime catalog states and accessible result cards.
-- [ ] Complete manga search and metadata/details flow.
-- [ ] Decide whether to implement a lawful light-novel data source or retire the placeholder route.
-- [ ] Add not-found and route-level error experiences.
+- [ ] Audit every route declaration and generated link.
+- [ ] Standardize root-absolute player paths.
+- [ ] Add direct-route, refresh, back, and forward navigation tests.
+- [ ] Replace fixed playback source index selection with validated source selection.
+- [ ] Add explicit loading, empty, error, retry, and unavailable states.
+- [ ] Validate provider payloads before reading nested properties.
+- [ ] Cancel stale requests when route parameters or search queries change.
+- [ ] Replace console-only failures with understandable UI feedback.
+- [ ] Review provider terms and document allowed integration behavior.
 
-## Quality
-- [ ] Add unit tests for response adapters and episode grouping.
-- [ ] Add component tests with mocked provider responses.
-- [ ] Add browser E2E coverage for key routes and nested-route refresh.
-- [ ] Run keyboard and screen-reader reviews.
-- [ ] Capture real desktop/mobile screenshots for the demo gallery.
+## 🟠 Priority 2: Engineering quality
 
-## Platform and operations
-- [ ] Document each provider's permissions, rate limits, and terms.
-- [ ] Verify deployment rewrites against the actual hosting platform.
-- [ ] Review dependency advisories and remove unused dependencies safely.
-- [ ] Define privacy requirements before implementing accounts or persistence.
+- [ ] Resolve existing ESLint errors in focused source changes.
+- [ ] Make lint a blocking CI step after the baseline is clean.
+- [ ] Add unit tests for URL builders, payload normalization, and episode grouping.
+- [ ] Add component tests for search, detail, and player states.
+- [ ] Add browser tests for critical user journeys.
+- [ ] Add sanitized provider fixtures and schema contract tests.
+- [ ] Remove or replace noisy full-payload console logging.
+- [ ] Review unused dependencies and update the lockfile deliberately.
+
+## 🟡 Priority 3: Product completeness decisions
+
+- [ ] Decide whether manga is an active product feature or a retained experiment.
+- [ ] If retained, complete manga search/detail behavior and validate proxy paths.
+- [ ] Decide whether light novels are in scope before building a catalog/reader.
+- [ ] Define a product requirement before adding accounts, watchlists, or history.
+- [ ] Define a persistence/security design before choosing a database.
+- [ ] Avoid adding billing or user data without an explicit product need.
+
+## 🟢 Priority 4: Experience and evidence
+
+- [ ] Complete keyboard and screen-reader accessibility review.
+- [ ] Review responsive behavior at documented viewport widths.
+- [ ] Improve meaningful image alternatives and form labels.
+- [ ] Capture genuine screenshots from verified routes.
+- [ ] Measure bundle size and Core Web Vitals before setting budgets.
+- [ ] Add performance improvements only with before/after evidence.
+
+## Release gate
+A production-oriented release should have clean install, blocking lint, successful build, critical route tests, understandable failure states, rights/terms review, accessibility review, dependency review, and current documentation.
+
+## Scope discipline
+Do not treat the existence of a roadmap item as proof that a feature exists. Update this file when priorities change and link completed items to evidence or commits.

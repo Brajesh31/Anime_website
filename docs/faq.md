@@ -1,17 +1,37 @@
-# FAQ
+# ❓ Frequently asked questions
 
-## Does this repository host anime or manga?
+## Is this a production streaming platform?
+No. It is a React/Vite prototype with partial anime and manga integrations. Provider availability, content rights, and playback are outside this repository's control.
 
-No. It is a client prototype that requests metadata or media URLs from third-party services.
+## Does the project own or host anime episodes?
+No. The player receives remote URLs from external provider responses. This repository does not host or own the media.
 
-## Can I add any streaming provider?
+## Why can search return no results?
+The external provider may be unavailable, the query may not match, the response schema may have changed, or the request may be blocked by CORS/network policy. Inspect the browser Network tab.
 
-Only if its terms, licensing, access rules, and technical behavior permit the intended use. Do not bypass DRM, authentication, paywalls, regional restrictions, or rate limits.
+## Why does the player remain on Loading?
+The current player code expects response.data.sources[2].url. If the request fails or the third source is missing, the UI has no complete fallback state.
 
-## Does the app have accounts?
+## Is there a user account or watchlist?
+No. There is no authentication, database, watchlist, or history persistence.
 
-No account or authentication backend is committed. Sign-in-like UI must not be presented as secure authentication.
+## Is manga reading complete?
+No. The manga route and related components are experimental. The repository does not provide a complete chapter reader.
 
-## Where are secrets configured?
+## Are light novels supported?
+No. The /ln route currently renders a placeholder.
 
-There are no private secrets required by the current prototype. Public `VITE_` variables are bundled into the browser and must never contain credentials.
+## Why does a nested route return 404 after refresh?
+The static host may not be configured to return the SPA entry document for browser routes. Review the deployment guide and hosting rewrite rules.
+
+## Why are CI checks green if lint has errors?
+The lint step is currently advisory because legacy source findings exist. CI success does not mean lint is clean. The production build and docs link validation are separate checks.
+
+## Are screenshots available?
+The repository has project artwork and technical diagrams. Genuine browser screenshots remain pending until each route is captured from the running application.
+
+## Can I add an API key to a VITE_ variable?
+Do not put private credentials in VITE_ variables. They are exposed to browser code after build.
+
+## How do I report a security issue?
+Follow SECURITY.md. Do not publish secrets or exploitable details in a public issue.

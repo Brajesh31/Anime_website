@@ -1,61 +1,105 @@
-# 🏗️ Architecture
+# 🏗️ Application architecture
 
-## Overview
+## 1. Architectural summary
+Anime Website is a client-rendered React single-page application. Vite provides local development and production bundling. React Router selects a page component from the browser URL. Most pages own their own state and HTTP requests. The browser communicates with external anime and manga services.
 
-The application is a browser-rendered React single-page application. Vite supplies the development server and production bundler. React Router maps URL paths to page components. Individual page components call remote services through Axios or browser fetch.
+There is no project-owned API server, database, queue, cache, or identity service in the current repository. Describe this as a frontend prototype with external integrations, not a full-stack streaming platform.
+
+## 2. Runtime component diagram
 
 ```mermaid
 flowchart TB
-  U[Browser / User] --> H[index.html]
-  H --> M[src/main.jsx]
-  M --> A[React App]
-  A --> R[React Router]
-  R --> P[Page components]
-  P --> S[Component state and effects]
-  S --> X[Axios / Fetch]
-  X --> API[Third-party anime and manga services]
-  P --> V[ReactPlayer]
-  V --> MEDIA[Remote media source]
-  T[Vite] -. dev/build tooling .-> H
-  C[Tailwind + PostCSS] -. styles .-> P
+ subgraph Browser
+  HTML[index.html]
+  ENTRY[src/main.jsx]
+  APP[React application]
+  ROUTER[src/App.jsx router]
+  PAGES[Route components]
+  STATE[Local state and effects]
+  HTTP[Axios / Fetch]
+  PLAYER[ReactPlayer]
+ end
+ subgraph Build
+  VITE[Vite]
+  CSS[Tailwind / PostCSS]
+  ESLINT[ESLint]
+ end
+ subgraph External
+  ANIME[Anime metadata API]
+  MANGA[Manga proxy service]
+  MEDIA[Remote media host]
+ end
+ HTML --> ENTRY --> APP --> ROUTER --> PAGES
+ PAGES --> STATE --> HTTP
+ HTTP --> ANIME
+ HTTP --> MANGA
+ PAGES --> PLAYER --> MEDIA
+ VITE -. build .-> HTML
+ CSS -. styles .-> PAGES
+ ESLINT -. analyzes .-> PAGES
 ```
 
-## Bootstrap sequence
+## 3. Bootstrap and render lifecycle
+1. Browser requests index.html.
+2. The module entry loads src/main.jsx.
+3. The entry imports global CSS and mounts React.
+4. src/App.jsx creates the browser router and route table.
+5. React Router renders the component for the matched path.
+6. The page renders its initial local state.
+7. Effects or user actions start Axios requests.
+8. The page stores selected response fields in local state.
+9. React re-renders the affected subtree.
+10. Playback routes pass a selected remote URL to ReactPlayer.
 
-1. The browser requests `index.html`.
-2. The module script loads `src/main.jsx`.
-3. `createRoot` mounts the application under React StrictMode.
-4. `App.jsx` constructs a browser router.
-5. The route table selects a page component.
-6. A page renders its initial state and may start requests from effects or user actions.
-7. State updates cause React to render returned data.
+## 4. Responsibility map
 
-## Responsibilities
+| Layer | Source | Responsibility | Current limitation |
+|---|---|---|---|
+| Document shell | index.html | HTML metadata and root element | Minimal shell |
+| Entry | src/main.jsx | React mount and global CSS | No shared state provider |
+| Route composition | src/App.jsx | Route declarations | Player paths need validation |
+| Anime discovery | AnimeHome.jsx | Search and recent feed | Incomplete request states |
+| Anime details | AnimeDescPage.jsx | Metadata and episode groups | Assumes provider schema |
+| Standard player | AnimePlayer.jsx | Episode request and player UI | Fixed source index |
+| Recent player | RecentAnimePlayer.jsx | Anime metadata and playback | Fixed source index and limited recovery |
+| Manga experiment | manga_comps/* | Search/detail experiments | Incomplete |
+| Styling | CSS and Tailwind | Layout and visual styles | No documented design token system |
+| Local proxy | vite.config.js | Selected development forwarding | Not a production backend |
+| Hosting rules | vercel.json | Deployment rewrites | Must be tested independently |
 
-| Layer | Files | Responsibility |
-|---|---|---|
-| HTML shell | `index.html` | Document metadata and root mount point |
-| Entry | `src/main.jsx` | React mount and global CSS |
-| Router | `src/App.jsx` | Route definitions and page composition |
-| Screens | `src/components/**` | Route-specific interface and local state |
-| Styling | `src/index.css`, `src/App.css`, Tailwind classes | Visual presentation |
-| Local proxy | `vite.config.js` | Development-only proxy behavior |
-| Deployment rewrites | `vercel.json` | Hosting rewrite rules |
-| Remote providers | URLs in page components | Data and media outside repository control |
+## 5. State ownership
+Inspected components use local React hooks such as useState and useEffect. There is no shared store, server cache, or persistence layer. Search results and selected URLs exist for the component lifetime and are normally lost on reload.
 
-## State and data
+## 6. Integration boundaries
+- **Anime provider:** frontend requests search, recent episodes, metadata, and playback source metadata. Provider uptime, schema, CORS, and limits are runtime dependencies.
+- **Manga proxy:** the page calls local paths. Vite and Vercel have separate routing configuration and may behave differently.
+- **Media host:** the player receives a URL from a provider response. The project does not store or serve the video.
 
-State is local to components through React hooks. There is no shared application store or persistent user database in the current source. Search results, selected metadata, and media source URLs are held in component state for the current page lifetime.
+## 7. Failure boundaries
+- Build failure: Vite or dependency configuration.
+- Route failure: route declaration, URL generation, or static-host fallback.
+- Catalog failure: provider availability, HTTP response, CORS, or schema.
+- Image failure: missing/expired URL or remote host policy.
+- Playback failure: missing source, unsupported format, media host denial, or browser capability.
+- Manga failure: proxy configuration, remote proxy availability, or component defects.
 
-## Architectural constraints
+## 8. Architectural debt
+1. Request construction is duplicated in page components.
+2. Response payloads are consumed without a shared validation layer.
+3. Fixed-index playback selection is fragile.
+4. Error and loading states are inconsistent.
+5. Provider base URLs are embedded in source/configuration.
+6. Automated route and provider contract tests are absent.
+7. Active and experimental components coexist.
+8. There is no durable data model.
 
-- The browser calls provider endpoints directly in several components.
-- Endpoint URLs are hard-coded in source files.
-- Response structures are assumed in places, including selection of a playback source by array index.
-- Error handling is inconsistent across components.
-- Development proxy rules do not automatically become production proxy behavior.
-- Some components contain experimental or incomplete code paths.
+## 9. Recommended evolution
+1. Stabilize route declarations and path builders.
+2. Add provider service modules.
+3. Normalize provider payloads into explicit frontend models.
+4. Add cancellation, timeouts, and user-visible states.
+5. Add component and browser tests.
+6. Add a server only if a concrete requirement exists, such as private credentials.
+7. Define privacy, retention, and authorization before adding accounts or persistence.
 
-## Future direction
-
-Centralize provider calls in a service layer, validate response schemas, use abortable requests, add route-level error boundaries, and introduce mocked tests. Keep any server-side credential private and outside Vite-exposed variables.
+These are recommendations, not existing layers.

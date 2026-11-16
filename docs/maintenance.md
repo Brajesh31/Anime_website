@@ -1,20 +1,47 @@
-# 🧰 Maintenance guide
+# 🔧 Maintenance guide
 
 ## Routine maintenance
-- Review npm dependency advisories before release.
-- Run `npm ci`, `npm run lint`, and `npm run build`.
-- Check provider endpoint availability and response shape changes.
-- Review API terms, rate policies, and content permissions.
-- Test root and nested routes on a real hosting preview.
-- Refresh demo screenshots when visible UI behavior changes.
-- Keep feature status and known limitations accurate.
 
-## Incident triage
-1. Identify whether the failure is build, route, browser, provider, or media-host related.
-2. Record route, timestamp, status code, and sanitized response shape.
-3. Determine whether multiple routes are affected.
-4. Avoid aggressive retries during rate limiting.
-5. Disable an integration if rights or access is uncertain.
-6. Record the resolution when user-visible behavior changes.
+### Every change
+- Inspect affected source and current route usage.
+- Keep docs synchronized with actual behavior.
+- Run npm run build and documentation checks.
+- Review screenshots and assets for secrets and rights.
+- Preserve package-lock consistency.
 
-Use issues and pull requests to keep maintenance work reviewable.
+### Dependency updates
+- Review package release notes and security advisories.
+- Confirm whether the dependency is used.
+- Update focused package groups.
+- Review lockfile changes.
+- Run clean install, lint, build, and route checks.
+- Document breaking changes.
+
+### Provider integration changes
+- Reconfirm endpoint ownership and terms.
+- Capture sanitized response examples.
+- Update API inventory and data-flow diagrams.
+- Validate schema and error behavior.
+- Confirm rate limits and permitted usage.
+- Test local and deployed proxy behavior separately.
+
+### Documentation maintenance
+- Keep README status labels accurate.
+- Update route and structure docs after source changes.
+- Verify Mermaid diagrams render in GitHub.
+- Verify all referenced images exist.
+- Remove stale instructions only after checking current source.
+- Never fabricate metrics, screenshots, or provider guarantees.
+
+## Periodic review
+At least before each public release, review:
+- Dependencies and vulnerabilities.
+- Route behavior and host rewrites.
+- Accessibility.
+- External provider terms and content rights.
+- Risk register.
+- Roadmap and changelog.
+- CI status and outstanding lint debt.
+
+## Backups and recovery
+The current project is source-controlled in Git and deployed as a static frontend. Use Git history and hosting-provider deployment history for recovery. No application database backup procedure exists because there is no project-owned database.

@@ -1,60 +1,89 @@
-# 🗂️ Project structure
+# 🗂️ Project structure and source ownership
 
 ## Root files
 
-| Path | Purpose |
+| Path | Responsibility | Notes |
+|---|---|---|
+| .editorconfig | Editor formatting defaults | Shared editor behavior |
+| .env.example | Safe Vite variable guidance | No app variables currently documented |
+| .gitattributes | Git text/binary handling | Repository metadata |
+| .gitignore | Excluded local/generated files | Keep build output and dependencies out of Git |
+| index.html | Vite HTML entry | Root mount and module entry |
+| package.json | Scripts and dependencies | npm manifest |
+| package-lock.json | Resolved dependency graph | Use with npm ci |
+| vite.config.js | React plugin and dev proxy | Proxy only affects local Vite server |
+| tailwind.config.js | Tailwind content/theme | Utility CSS configuration |
+| postcss.config.js | CSS processing | Tailwind and Autoprefixer |
+| eslint.config.js | Static lint rules | Legacy source findings remain |
+| vercel.json | Deployment rewrites | Not equivalent to Vite proxy |
+| anime.png | Existing project artwork | Not a live UI screenshot |
+
+## Application entry and route composition
+
+| Path | Responsibility | Active usage |
+|---|---|---|
+| src/main.jsx | Mounts React and imports global styles | Application entry |
+| src/App.jsx | Creates browser router and route table | Route composition |
+| src/App.css | App-level CSS | Imported by App |
+| src/index.css | Global CSS/Tailwind directives | Imported by entry |
+
+## Anime components
+
+| Path | Responsibility | Notes |
+|---|---|---|
+| src/components/Home.jsx | Landing page | Root route |
+| src/components/AnimeHome.jsx | Search and recent episodes | Active route |
+| src/components/AnimeBtn.jsx | Standalone anime request experiment | Imported by App but not rendered as a route |
+| src/components/LightNHome.jsx | Light-novel placeholder | Active route |
+| src/components/pageComponents/AnimeDescPage.jsx | Anime metadata and episode groups | Active route |
+| src/components/pageComponents/AnimePlayer.jsx | Episode playback | Active route |
+| src/components/pageComponents/RecentAnimePlayer.jsx | Recent episode playback | Active route |
+| src/components/pageComponents/Navbar.jsx | Navbar/search experiment | Not used in current route elements |
+
+## Manga components
+
+| Path | Responsibility | Notes |
+|---|---|---|
+| src/components/manga_comps/Mangadex22.jsx | Active manga route experiment | Current route component |
+| src/components/manga_comps/MangaDesc.jsx | Manga detail experiment | Active detail route |
+| src/components/manga_comps/MangaHome.jsx | Alternate manga/novel experiment | Not selected by current route table |
+| src/components/manga_comps/MangaHome2.jsx | Alternate cover/image experiment | Not selected by current route table |
+| src/components/manga_comps/Managadex.jsx | Earlier MangaDex experiment | Not selected by current route table |
+
+## Documentation and automation
+
+| Path | Responsibility |
 |---|---|
-| `index.html` | Vite HTML entry document |
-| `package.json` | Scripts and dependency manifest |
-| `package-lock.json` | npm dependency lock |
-| `vite.config.js` | Vite plugin and development proxy |
-| `tailwind.config.js` | Tailwind content paths and theme extension |
-| `postcss.config.js` | Tailwind and Autoprefixer pipeline |
-| `eslint.config.js` | Flat ESLint configuration |
-| `vercel.json` | Vercel rewrite configuration |
-| `anime.png` | Existing project image asset |
-| `.env.example` | Guidance for future public Vite configuration |
+| .github/ISSUE_TEMPLATE/ | Structured issue forms |
+| .github/workflows/ci.yml | Install, lint, build and docs checks |
+| .github/workflows/update-readme.yml | Manual README workflow |
+| docs/ | Product, architecture, integration, quality and operations docs |
+| docs/diagrams/ | SVG and Mermaid diagrams |
+| docs/demo/ | Genuine screenshot capture process |
+| scripts/check_docs.py | Documentation-link validation |
 
-## Source tree
+## Source organization observations
+- Some components are imported by App.jsx but are not route elements.
+- Some manga components are retained experiments.
+- API request logic lives in page components rather than a shared service layer.
+- State is local and not persisted.
+- There is no test or service directory in the current source tree.
 
-| Path | Purpose |
-|---|---|
-| `src/main.jsx` | Mounts React and imports global styles |
-| `src/App.jsx` | Creates and provides the route table |
-| `src/App.css` | App-level stylesheet |
-| `src/index.css` | Tailwind directives and global stylesheet |
-| `src/components/Home.jsx` | Landing route |
-| `src/components/AnimeHome.jsx` | Anime search and recent episodes |
-| `src/components/AnimeBtn.jsx` | Standalone anime fetch component |
-| `src/components/LightNHome.jsx` | Light-novel placeholder |
-| `src/components/pageComponents/AnimeDescPage.jsx` | Anime metadata and episode list |
-| `src/components/pageComponents/AnimePlayer.jsx` | Standard playback route |
-| `src/components/pageComponents/RecentAnimePlayer.jsx` | Recent episode playback route |
-| `src/components/pageComponents/Navbar.jsx` | Search navbar experiment |
-| `src/components/manga_comps/Mangadex22.jsx` | Active manga route component |
-| `src/components/manga_comps/MangaDesc.jsx` | Manga cover/detail experiment |
-| `src/components/manga_comps/MangaHome.jsx` | MangaHere/novel-cool experiment |
-| `src/components/manga_comps/MangaHome2.jsx` | Remote cover image experiment |
-| `src/components/manga_comps/Managadex.jsx` | Earlier MangaDex component experiment |
-
-## Repository hygiene notes
-
-Some components are not imported by the active route table. They are retained as experiments and should not be deleted without checking their intended use. Avoid treating every file under `src/components` as a shipped route.
-
-Potential future organization:
+## Proposed future structure
 
 ```text
 src/
-├── app/                 # Router and providers
-├── components/          # Reusable UI
+├── app/                 # Router and application composition
+├── components/          # Shared UI primitives
 ├── features/
-│   ├── anime/
-│   ├── manga/
-│   └── novels/
-├── services/            # API adapters
-├── hooks/               # Shared hooks
-├── utils/               # Validation and formatting
-└── styles/
+│   ├── anime/           # Search, detail, episodes, playback
+│   ├── manga/           # Manga discovery and detail
+│   └── novels/          # Only if approved as a feature
+├── services/            # Provider adapters and HTTP clients
+├── models/              # Normalized domain models
+├── hooks/               # Shared feature hooks
+├── utils/               # URL, validation and formatting helpers
+└── styles/              # Global styles and tokens
 ```
 
-This proposed layout is not the current source tree.
+The proposed tree is not current source. Existing experiments should not be deleted or moved without a separately reviewed source change.

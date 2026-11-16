@@ -1,63 +1,42 @@
-# 🧩 Architecture diagrams
+# 🧩 Diagram catalogue
 
-The diagrams below are maintained as Mermaid source in Markdown, so they remain reviewable and editable.
+This folder explains the application and its major user/integration journeys.
 
-## 1. Application bootstrap and route selection
+## SVG diagrams
 
-```mermaid
-flowchart TD
-  A[index.html] --> B[main.jsx]
-  B --> C[React StrictMode]
-  C --> D[App.jsx]
-  D --> E[Browser Router]
-  E --> F{Route}
-  F --> G[Home]
-  F --> H[AnimeHome]
-  F --> I[Anime detail]
-  F --> J[Anime player]
-  F --> K[Manga]
-  F --> L[Light novel placeholder]
-```
+| File | Subject | Use |
+|---|---|---|
+| [system-architecture.svg](system-architecture.svg) | Browser, React, routing, provider and media boundaries | High-level architecture |
+| [anime-user-flow.svg](anime-user-flow.svg) | Anime discovery journey | User flow |
+| [playback-flow.svg](playback-flow.svg) | Playback metadata request and player | Integration flow |
 
-## 2. Search-to-detail sequence
+## Mermaid source diagrams
 
-```mermaid
-sequenceDiagram
-  actor Reader
-  participant Search as AnimeHome
-  participant API as Remote API
-  participant Detail as AnimeDescPage
-  Reader->>Search: Submit title
-  Search->>API: Search request
-  API-->>Search: Result collection
-  Search-->>Reader: Result cards
-  Reader->>Detail: Select result
-  Detail->>API: Info request
-  API-->>Detail: Metadata and episodes
-  Detail-->>Reader: Detail page
-```
+[flows.md](flows.md) contains GitHub-rendered editable diagrams:
+1. Application bootstrap and route selection.
+2. Anime search journey.
+3. Recent episode discovery.
+4. Anime details and episode grouping.
+5. Playback request and player state.
+6. Manga search and proxy path.
+7. Recommended request lifecycle state diagram.
+8. Provider request sequence.
+9. Static deployment and route fallback.
+10. Conceptual future persistence ER diagram.
 
-## 3. Playback source selection
+## Diagram conventions
+- Solid arrows represent the flow described in each diagram.
+- External provider boxes are outside repository ownership.
+- Diagrams marked recommended, target, or conceptual are not implemented architecture.
+- The future ER diagram is not a database schema.
+- SVGs are technical illustrations, not browser screenshots.
 
-```mermaid
-flowchart TD
-  A[Open episode route] --> B[Request playback metadata]
-  B --> C{Response valid?}
-  C -->|Yes| D{Authorized source available?}
-  D -->|Yes| E[Render ReactPlayer]
-  D -->|No| F[Unavailable state]
-  C -->|No| G[Schema/request error]
-```
+## Updating diagrams
+When routes, endpoints, components, or deployment rules change:
+1. Inspect the changed source.
+2. Update the relevant diagram and explanation.
+3. Keep current and future behavior distinguishable.
+4. Verify relative links.
+5. Preview Mermaid rendering in GitHub.
 
-The validated and authorized checks are recommended target behavior. Existing player code should be hardened before those checks are treated as implemented.
-
-
-## Rendered SVG assets
-
-These diagrams are also committed as standalone SVG image files for reuse in documentation and presentations:
-
-- [System architecture diagram](system-architecture.svg)
-- [Anime discovery user flow](anime-user-flow.svg)
-- [Playback request flow](playback-flow.svg)
-
-The SVGs are technical diagrams, not screenshots of the running application.
+Do not imply a backend, cache, identity service, or database exists when it does not.

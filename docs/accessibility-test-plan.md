@@ -1,28 +1,36 @@
-# 🧪 Accessibility test plan
+# ♿ Accessibility test plan
 
-## Test scope
+## Scope
+This plan covers the primary screens in the current React application. It is a manual test plan, not evidence of completed WCAG conformance.
 
-Test the landing page, anime search, anime detail/episode links, both playback routes, manga search, and the light-novel placeholder.
+## Test environment
+Record browser, operating system, viewport, zoom level, assistive technology (if used), test date, and commit SHA. Test at 320 px, 390 px, 768 px, 1366 px, and 1920 px.
 
-## Manual cases
+## Test cases
 
-| ID | Procedure | Pass condition |
-|---|---|---|
-| A11Y-01 | Navigate from page start using Tab | Focus order is logical and visible |
-| A11Y-02 | Submit search using Enter | Search can be completed without pointer |
-| A11Y-03 | Inspect input with screen reader | Input has a meaningful accessible name |
-| A11Y-04 | Inspect cover images | Meaningful content images have relevant alt text |
-| A11Y-05 | Zoom browser to 200% | Content remains usable without clipping |
-| A11Y-06 | Set reduced motion preference | Nonessential motion is reduced |
-| A11Y-07 | Inspect player controls with keyboard | Controls can be reached and operated |
-| A11Y-08 | Simulate failed provider request | Failure is communicated in text |
-| A11Y-09 | Check text and controls | Contrast is sufficient |
-| A11Y-10 | Test narrow viewport | Content does not require two-dimensional scrolling |
+| ID | Screen | Action | Expected result |
+|---|---|---|---|
+| A11Y-01 | All routes | Navigate using Tab and Shift+Tab | Focus order is logical |
+| A11Y-02 | All routes | Inspect focused element | Visible focus indicator |
+| A11Y-03 | Anime search | Locate search input without placeholder | Input has accessible name |
+| A11Y-04 | Anime search | Submit query | Result/error feedback is understandable |
+| A11Y-05 | Result cards | Navigate by keyboard | Link name identifies destination |
+| A11Y-06 | Recent feed | Inspect poster images | Useful alt or decorative empty alt |
+| A11Y-07 | Anime details | Operate details/summary groups | Native keyboard interaction works |
+| A11Y-08 | Player | Operate controls without mouse | Controls remain usable |
+| A11Y-09 | Player | Simulate unavailable source | Failure is communicated |
+| A11Y-10 | Manga | Use search and result links | Controls have accessible names |
+| A11Y-11 | All routes | Zoom to 200% | Content remains usable |
+| A11Y-12 | All routes | Check reduced motion | Non-essential animation is reduced |
 
-## Evidence log template
+## Screen-reader review
+Review page title, heading order, form labels, link purpose, image alternatives, dynamic result announcements, and error messaging. Do not assume that semantic HTML alone guarantees a good experience.
 
-| Date | Route | Browser/AT | Test ID | Result | Issue reference |
-|---|---|---|---|---|---|
-| YYYY-MM-DD | /anime | Browser + screen reader | A11Y-01 | Not yet tested | - |
+## Defect severity
+- **Blocker:** core flow cannot be completed by keyboard or assistive technology.
+- **High:** important information/control is unavailable or unlabeled.
+- **Medium:** confusing announcement, focus order, or contrast problem.
+- **Low:** minor wording or consistency issue.
 
-Do not mark a test as passed until it has been executed.
+## Evidence
+Record the test ID, steps, expected/actual behavior, browser/assistive technology, severity, and a sanitized screenshot or recording when useful. Re-test after the fix.

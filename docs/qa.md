@@ -1,57 +1,57 @@
-# 🧪 Quality assurance plan
+# 🧪 Quality assurance and route verification plan
 
-## Automated checks available now
+## 1. Current automated checks
+The CI workflow checks out the repository, sets up Node.js 20, runs npm ci, runs ESLint as an advisory step due legacy findings, builds the Vite production bundle, sets up Python, and runs the Markdown relative-link checker.
 
-```bash
-npm ci
-npm run lint
-npm run build
-```
+A successful workflow proves only that its required steps completed. Because lint is advisory, green CI does not mean lint is clean. It also does not prove live APIs, deployed routes, or playback work.
 
-These validate static code and production bundling. They do not verify third-party endpoint availability, route visuals, or playback rights.
+## 2. Route smoke-test matrix
 
-## Route test matrix
-
-| Route | Check | Expected verification |
+| Route | Test | Evidence |
 |---|---|---|
-| `/` | Load landing route | Links are visible and navigate to expected content routes |
-| `/anime` | Load catalog | Search field accepts input; network request outcome is visible |
-| `/anime` | Submit valid/invalid search | Results or a useful empty/error state appears |
-| `/anime` | Recent feed | Recent items render when provider returns valid data |
-| `/anime/:title` | Load detail | Metadata and episode groups render safely |
-| `/anime/watch/:title` | Load player | Valid authorized source renders player; failure is visible |
-| `/anime/recent/watch/:id/:title` | Load recent player | Metadata and source states are understandable |
-| `/manga` | Search manga | Result list or an explicit provider error is visible |
-| `/manga/desc/:manga_id` | Open detail | Page handles missing or invalid IDs |
-| `/ln` | Open novel route | Placeholder state is clearly identified |
+| / | Load landing page | Page and navigation links visible |
+| /anime | Load anime page | Search and recent-feed regions render |
+| /anime | Submit known query | Request and resulting UI state observable |
+| /anime | Submit empty query | Safe, understandable behavior |
+| /anime/:title | Open valid identifier | Metadata and episode list render |
+| /anime/:title | Open invalid identifier | Error/unavailable behavior understandable |
+| Standard player route | Open valid episode ID | Playback request and player state observable |
+| Recent player route | Open valid anime/episode IDs | Both metadata requests inspectable |
+| /manga | Submit query | Proxy request and experimental results observable |
+| /manga/desc/:manga_id | Open valid/invalid ID | Detail component handles missing data |
+| /ln | Open route | Placeholder clearly identified |
 
-## Responsive matrix
+Player declarations and links need special attention because their leading-slash convention differs from other route declarations.
 
-| Viewport | Example width | Review |
+## 3. Responsive matrix
+
+| Device class | Width | Review focus |
 |---|---:|---|
-| Small phone | 320 px | No unintended horizontal overflow |
-| Modern phone | 390 px | Search and cards usable |
-| Tablet | 768 px | Grid and text remain readable |
-| Laptop | 1366 px | Main content does not become excessively wide |
-| Large desktop | 1920 px | Content remains aligned and legible |
+| Narrow phone | 320 px | No horizontal overflow |
+| Typical phone | 390 px | Search, cards, text and player fit |
+| Tablet | 768 px | Grid and text density |
+| Laptop | 1366 px | Content width and spacing |
+| Large desktop | 1920 px | Alignment and line length |
 
-## Negative scenarios
-
+## 4. Negative scenarios
 - Provider returns HTTP 429 or 5xx.
-- Provider returns invalid JSON or an unexpected schema.
-- Search query is empty or whitespace.
-- Result array is empty.
-- Image URL is absent or broken.
-- Playback sources array is empty.
-- User opens a detail route with an invalid ID.
-- User refreshes a nested route after deployment.
-- User navigates away while an HTTP request is pending.
+- Network is offline.
+- Provider returns invalid JSON.
+- Search result array is empty.
+- Result item has no identifier or image.
+- Anime detail has no episodes.
+- Playback response has no sources or fewer than three.
+- Selected source URL is invalid or unsupported.
+- Manga response has no data collection or nested English title.
+- User changes route while a request is pending.
+- User refreshes a nested route.
+- Browser back/forward navigation.
 
-## Evidence capture
+## 5. Accessibility checks
+Keyboard-only navigation, visible focus, accessible input name, meaningful links/buttons, useful image alternatives, heading hierarchy, contrast, reduced-motion support, player keyboard controls, and announced loading/error states.
 
-Store genuine browser captures in `docs/demo/` only after checking that they contain no secrets, personal data, or unauthorized media. Include route and viewport in the filename or capture log. Use `docs/demo/README.md` as the process.
+## 6. Current baseline debt
+The latest recorded CI run passed install, production build, and documentation-link validation. ESLint reports legacy issues including unused imports/state, prop validation, duplicate declarations, undefined identifiers, missing React list keys, and a CommonJS config global. Lint remains advisory until source findings are addressed.
 
-
-## Current baseline debt
-
-The initial CI run exposed existing ESLint failures across legacy source components (unused imports/state, prop validation, duplicate declarations, undefined identifiers, missing React list keys, and a CommonJS config global). These findings predate the documentation-only additions. Lint is currently reported as an advisory CI step so the production build and documentation-link checks can still run. The errors should be fixed in focused source changes; do not treat an advisory lint result as a clean lint pass.
+## 7. Evidence requirements
+Record route, sanitized identifier, browser, viewport, reproduction steps, expected/actual behavior, sanitized console/network evidence, and whether the issue reproduces with the provider unavailable. Screenshots must contain no secrets or unauthorized content. See demo/README.md.

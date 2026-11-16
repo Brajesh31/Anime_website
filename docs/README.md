@@ -1,53 +1,89 @@
 # 📚 Documentation hub
 
-This directory explains the application as implemented, records external assumptions, and separates current behavior from future plans.
+The documentation describes the checked-in React/Vite application, identifies external dependencies, and separates current behavior from recommendations and future work. Start with the README at the repository root for the project overview.
 
-## Start here
+## 🧭 Find the right guide
 
-| Goal | Guide |
+| If you need to... | Read |
 |---|---|
-| Understand purpose and scope | [Project overview](project-overview.md) |
-| Trace runtime composition | [Architecture](architecture.md), [System design](system-design.md) |
-| Understand provider requests | [Data flow](data-flow.md), [API notes](api.md) |
-| Locate source modules | [Project structure](project-structure.md) |
-| Install and work locally | [Installation](installation.md), [First-run checklist](installation-checklist.md), [Development](development.md) |
-| Deploy the SPA | [Deployment](deployment.md) |
-| Review feature state | [Features](features.md), [Limitations](limitations.md) |
+| Understand purpose and intended scope | [Product brief](product-brief.md), [Project overview](project-overview.md) |
+| Check actual implementation status | [Feature inventory](features.md), [Route reference](routes.md), [Limitations](limitations.md) |
+| Understand the runtime architecture | [Architecture](architecture.md), [System design](system-design.md) |
+| Follow requests and user journeys | [Data flow](data-flow.md), [Mermaid diagrams](diagrams/flows.md) |
+| Understand remote provider assumptions | [API integrations](api.md), [Content rights](content-rights.md) |
+| Configure local/deployed behavior | [Configuration](configuration.md), [Deployment](deployment.md) |
+| Understand dependencies | [Dependency notes](dependencies.md) |
+| Locate source and assets | [Project structure](project-structure.md), [Asset inventory](asset-inventory.md) |
+| Install and contribute | [Installation](installation.md), [Development](development.md), [Workflow](workflow.md) |
+| Validate the app | [QA plan](qa.md), [Testing strategy](testing-strategy.md), [Traceability](traceability-matrix.md) |
 | Review accessibility | [Accessibility](accessibility.md), [Accessibility test plan](accessibility-test-plan.md) |
-| Review risks | [Security review](security-review.md) |
-| Test behavior | [QA plan](qa.md), [Testing strategy](testing-strategy.md) |
-| Capture genuine screenshots | [Demo asset guide](demo/README.md) |
-| Resolve common errors | [Troubleshooting](troubleshooting.md), [FAQ](faq.md) |
-| Maintain the repository | [Maintenance](maintenance.md), [Documentation rules](documentation-maintenance.md) |
-| Understand terminology and diagnostics | [Glossary](glossary.md), [Observability](observability.md) |
+| Review security and rights | [Security review](security-review.md), [Content rights](content-rights.md) |
+| Diagnose an incident | [Operations](operations.md), [Observability](observability.md), [Troubleshooting](troubleshooting.md) |
+| Track project risk | [Risk register](risk-register.md), [Limitations](limitations.md) |
+| Review performance | [Performance guide](performance.md) |
+| Prepare a release | [Release management](release-management.md), [Changelog](../CHANGELOG.md) |
+| Capture visuals | [Demo guide](demo/README.md), [Asset inventory](asset-inventory.md) |
 
-## Architecture references
+## 🏗️ Architecture and engineering
 - [Architecture](architecture.md)
-- [Data flow](data-flow.md)
 - [System design](system-design.md)
-- [Contributor workflow](workflow.md)
+- [Data flow](data-flow.md)
+- [Routes and parameters](routes.md)
+- [API integrations](api.md)
+- [Database and persistence status](database.md)
+- [Configuration](configuration.md)
+- [Dependencies and supply chain](dependencies.md)
 - [Project structure](project-structure.md)
-- [ADR-0001: Client-side React SPA](adr/0001-client-side-react-spa.md)
-- [Diagram index](diagrams/README.md)
+- [Architecture decision records](adr/)
 
-## Quality and governance
-- [Accessibility](accessibility.md)
-- [Security review](security-review.md)
+## 🧪 Quality and governance
 - [QA plan](qa.md)
 - [Testing strategy](testing-strategy.md)
-- [Documentation maintenance](documentation-maintenance.md)
+- [Traceability matrix](traceability-matrix.md)
+- [Accessibility](accessibility.md)
+- [Accessibility test plan](accessibility-test-plan.md)
+- [Security review](security-review.md)
+- [Content rights](content-rights.md)
+- [Risk register](risk-register.md)
+- [Performance](performance.md)
+- [Release management](release-management.md)
 - [Maintenance](maintenance.md)
-- [Limitations](limitations.md)
 
-## Demo and visuals
-- [Demo gallery and screenshot capture procedure](demo/README.md)
-- [Mermaid diagrams](diagrams/README.md)
+## 🛠️ Operations
+- [Operations and incident response](operations.md)
+- [Observability](observability.md)
+- [Troubleshooting](troubleshooting.md)
+- [Deployment](deployment.md)
 
-## Documentation conventions
-- **Implemented:** visible in checked-in code.
-- **Partial:** a code path exists but is incomplete or fragile.
-- **Experimental:** present as an integration/UI experiment.
-- **Planned:** roadmap item only.
-- **Not implemented:** no working implementation exists in the current source.
+## 📦 Product and contributor references
+- [Product brief](product-brief.md)
+- [Feature inventory](features.md)
+- [Known limitations](limitations.md)
+- [Roadmap](../ROADMAP.md)
+- [Contributor workflow](workflow.md)
+- [Documentation maintenance](documentation-maintenance.md)
+- [Glossary](glossary.md)
+- [FAQ](faq.md)
+- [Demo capture guide](demo/README.md)
+- [Asset inventory](asset-inventory.md)
 
-External services are dependencies, not owned infrastructure. Do not publish fake performance metrics, provider guarantees, or screenshots presented as actual application captures.
+## 📊 Diagram catalogue
+The [diagram index](diagrams/README.md) lists SVG illustrations and [Mermaid sources](diagrams/flows.md): application boot, search, recent episodes, detail, playback, manga proxy, request lifecycle, provider sequence, deployment, and a clearly labeled conceptual persistence model.
+
+## Status vocabulary
+- **Implemented:** supported by checked-in code.
+- **Basic:** minimal implementation with limited behavior.
+- **Partial:** code exists but lacks reliability or UX behavior.
+- **Experimental:** exploratory or incomplete.
+- **Placeholder:** route exists without the intended feature.
+- **Planned:** future work only.
+- **Not implemented:** no working implementation exists.
+
+## Documentation rules
+1. Prefer source-backed statements.
+2. Label proposed designs and future diagrams.
+3. Keep routes and endpoint observations synchronized with source.
+4. Do not invent uptime, performance, coverage, or usage metrics.
+5. Do not call generated artwork a product screenshot.
+6. Do not claim provider ownership or content rights without evidence.
+7. Update this index when documents are added or renamed.

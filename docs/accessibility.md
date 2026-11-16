@@ -1,49 +1,58 @@
-# ♿ Accessibility checklist
+# ♿ Accessibility guide
 
-## Current assessment
+## Current accessibility status
+The source uses semantic HTML elements in places, including forms, links, buttons, headings, and details/summary. Tailwind responsive classes are present. However, no formal WCAG audit or automated accessibility test suite is included. Do not claim WCAG conformance.
 
-Tailwind utility classes provide some responsive layout behavior, but the current project has not been comprehensively tested with keyboard-only navigation, screen readers, or automated accessibility tooling. This document is a verification plan, not a certification.
+## Core requirements
 
-## Document and navigation
+### Keyboard
+- Every interactive element must be reachable by keyboard.
+- Tab order must follow visual and reading order.
+- Focus must remain visible.
+- Native links, buttons, inputs, and details/summary should be preferred over clickable generic containers.
+- No keyboard trap may occur in menus, dialogs, or player controls.
 
-- [ ] Set a descriptive page title in `index.html`.
-- [ ] Keep document language accurate.
-- [ ] Ensure every route has a clear page heading.
-- [ ] Provide a way to navigate between major content areas.
-- [ ] Ensure browser back/forward navigation remains predictable.
-- [ ] Provide a meaningful not-found route.
+### Forms
+- Search inputs need a programmatic label, not only placeholder text.
+- Validation and errors should be associated with the relevant control.
+- Submission should not rely on an alert as the only feedback.
+- Loading and result counts should be announced where appropriate.
 
-## Search forms
+### Images
+- Meaningful poster art needs useful alternative text.
+- Decorative artwork should use empty alt text.
+- Broken image URLs should not leave confusing empty controls.
+- Do not use a title string as a substitute for a clear image description in every context.
 
-- [ ] Give each search input a visible or programmatic label.
-- [ ] Ensure submit can be triggered with Enter.
-- [ ] Do not use alerts as the only search feedback.
-- [ ] Announce loading, empty, and error results using appropriate status semantics.
-- [ ] Preserve focus after result updates in a predictable way.
+### Structure and readability
+- Use a logical heading hierarchy.
+- Use descriptive link text.
+- Preserve readable line length and spacing.
+- Do not communicate status through color alone.
+- Check text and control contrast.
 
-## Result cards and images
+### Motion and media
+- Respect prefers-reduced-motion for non-essential animation.
+- Player controls must be keyboard-operable.
+- Provide understandable unavailable/error text when media cannot load.
+- Avoid autoplay behavior that surprises users; review current player props before release.
 
-- [ ] Use descriptive alternative text for meaningful cover images.
-- [ ] Use empty alt text for decorative images.
-- [ ] Ensure titles and links have meaningful accessible names.
-- [ ] Avoid using color alone to communicate availability or selection.
-- [ ] Ensure text contrast meets WCAG AA targets.
+## Route-specific checks
 
-## Playback
+| Screen | Review |
+|---|---|
+| Home | Heading hierarchy and navigation link names |
+| Anime search | Label, submit action, search feedback, result card names |
+| Recent feed | Image alternatives and episode link labels |
+| Anime details | Poster alternative, description readability, details/summary keyboard behavior |
+| Player | Keyboard-accessible controls and failure state |
+| Manga | Search label, result link names, nested title handling |
+| Light novels | Placeholder is announced clearly |
 
-- [ ] Verify keyboard access to all player controls.
-- [ ] Provide a clear unavailable/error message.
-- [ ] Do not autoplay sound unexpectedly.
-- [ ] Confirm captions/subtitles availability where provided by an authorized source.
-- [ ] Ensure focus remains visible around player controls.
+## Responsive review
+Test at 320 px, 390 px, 768 px, 1366 px, and 1920 px. Check zoom at 200%, portrait/landscape, no horizontal scrolling for ordinary content, and controls large enough to operate.
 
-## Motion and responsive behavior
+## Manual audit record
+For each review, record date, browser, assistive technology if used, route, viewport, issue, severity, and evidence. Fix critical keyboard blockers before release.
 
-- [ ] Respect `prefers-reduced-motion` for animations.
-- [ ] Test at 320 CSS pixels and common tablet/desktop widths.
-- [ ] Check zoom to 200%.
-- [ ] Avoid horizontal overflow except where a clearly labeled horizontal media rail is intentional.
-
-## Manual test protocol
-
-Use keyboard only: Tab, Shift+Tab, Enter, Space, and Escape where relevant. Then review the major routes with at least one screen reader. Record browser, assistive technology, route, issue, and retest result in QA notes.
+See accessibility-test-plan.md for the repeatable test matrix.

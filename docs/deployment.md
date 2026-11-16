@@ -1,41 +1,48 @@
-# 🚀 Deployment
+# 🚀 Deployment and hosting guide
 
-## Build artifact
-
-Run:
+## 1. Build output
+The project uses Vite. Generate production assets with:
 
 ```bash
 npm ci
-npm run lint
 npm run build
 ```
 
-Deploy the generated `dist/` directory to a static hosting provider configured for Vite.
+The output directory is dist/. Deploy those static assets to a host that supports the SPA fallback required by React Router.
 
-## SPA route fallback
+## 2. Hosting responsibilities
+A static host must serve the built entry document and generated assets, return the SPA entry document for valid client routes, preserve content types and caching behavior, and apply rewrite rules only where intended.
 
-React Router uses browser history paths. Hosting must return the SPA entry document for valid application routes such as `/anime`, `/manga`, and `/anime/watch/example`. Otherwise, direct navigation or refresh can produce a hosting-level 404.
+## 3. Browser-history fallback
+A visitor may open a nested URL directly or refresh while on a nested page. If the host looks for a physical file instead of returning the SPA entry document, it may return a hosting-level 404.
 
-## Existing Vercel configuration
+Verify direct navigation and refresh for /anime, /manga, /ln, /anime/{identifier}, player routes, and /manga/desc/{identifier}. Route declarations and generated links must be tested together.
 
-The repository contains `vercel.json` rewrites for selected routes and manga proxy experiments. Review each rule against the active router and provider before changing it. The current rewrite list should not be assumed to constitute a complete or secure production proxy.
+## 4. Vite proxy vs Vercel rewrites
+Vite server.proxy applies to local development only. It does not automatically become a production API proxy.
 
-The Vite `server.proxy` configuration applies to the development server. It does not automatically apply to a deployed Vercel build.
+The repository also contains vercel.json rewrites for selected application and manga paths. These are a separate mechanism. Verify exact source matching, destination paths, route shadowing, CORS/headers, destination ownership, and whether the rewrite is required.
 
-## Deployment checklist
+A successful local manga request does not prove that the production rewrite works.
 
-- [ ] Clean install completes from package-lock.
-- [ ] ESLint passes.
+## 5. Environment and secrets
+No private credentials should be placed in the browser bundle. VITE_ variables are client-visible. A future private provider credential requires a server-side component and documented security design.
+
+## 6. Pre-deployment checklist
+- [ ] npm ci succeeds.
+- [ ] Lint findings have been reviewed.
 - [ ] Production build succeeds.
-- [ ] Root page loads from deployed URL.
-- [ ] Direct route navigation and refresh work.
-- [ ] Remote provider requests work from the deployed origin.
-- [ ] CORS and rate-limit behavior are understood.
-- [ ] Media source is authorized and playable.
-- [ ] No private keys or provider credentials are in the built JavaScript.
-- [ ] Mobile layout and keyboard navigation are reviewed.
-- [ ] Browser console has no unexplained runtime errors.
+- [ ] Root route loads.
+- [ ] Nested routes load directly and survive refresh.
+- [ ] Back and forward navigation work.
+- [ ] Remote requests work from deployed origin.
+- [ ] Proxy rewrites are tested independently from Vite.
+- [ ] No private credential is present in generated assets.
+- [ ] Images and media are permitted and available.
+- [ ] Mobile layout is reviewed.
+- [ ] Keyboard navigation is reviewed.
+- [ ] Browser console/network errors are reviewed.
+- [ ] Docs and demo evidence match deployed version.
 
-## Rollback
-
-Keep the previous known-good deployment available through the hosting provider. Roll back when a deployment breaks navigation, build output, or lawful provider access. A rollback does not fix an upstream provider outage.
+## 7. Rollback
+Keep a known-good deployment available through the host. Roll back if a new frontend build or rewrite causes navigation/rendering failure. A frontend rollback cannot repair an upstream provider outage or grant rights to external media.
