@@ -37,11 +37,11 @@ The repository currently contains `anime.png`, which is project artwork. It is *
 | Asset | Purpose | Status |
 |---|---|---|
 | [Project artwork](anime.png) | Existing repository image and visual identity | Available |
-| [Home route capture](docs/demo/home.png) | Browser screenshot of `/` | Capture pending |
-| [Anime catalog capture](docs/demo/anime-catalog.png) | Browser screenshot of `/anime` | Capture pending |
-| [Anime details capture](docs/demo/anime-details.png) | Browser screenshot of `/anime/:title` with a working provider response | Capture pending |
-| [Manga catalog capture](docs/demo/manga-catalog.png) | Browser screenshot of `/manga` | Capture pending |
-| [Playback capture](docs/demo/playback.png) | Browser screenshot with a legally usable test stream | Capture pending |
+| `docs/demo/home.png` | Browser screenshot of `/` | Capture pending |
+| `docs/demo/anime-catalog.png` | Browser screenshot of `/anime` | Capture pending |
+| `docs/demo/anime-details.png` | Browser screenshot of `/anime/:title` with a working provider response | Capture pending |
+| `docs/demo/manga-catalog.png` | Browser screenshot of `/manga` | Capture pending |
+| `docs/demo/playback.png` | Browser screenshot with a legally usable test stream | Capture pending |
 
 See [Demo asset guide](docs/demo/README.md) for capture instructions, required viewport sizes, naming conventions, and image quality checks. A placeholder or mockup must never be described as a real product screenshot.
 
@@ -167,11 +167,13 @@ Open the local URL shown by Vite, normally `http://localhost:5173`.
 npm run lint
 npm run build
 npm run preview
+python scripts/check_docs.py
 ```
 
 - `lint` runs ESLint across the project.
 - `build` creates the production bundle in `dist/`.
 - `preview` serves the production build locally.
+- `python scripts/check_docs.py` validates relative Markdown links.
 
 These commands do not test live third-party APIs or prove that every route works in a deployed environment. Follow the [QA plan](docs/qa.md) for manual route checks.
 
