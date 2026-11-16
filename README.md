@@ -132,6 +132,8 @@ Anime_website/
 │   ├── App.css
 │   ├── index.css
 │   └── main.jsx
+├── scripts/
+│   └── check_docs.py
 ├── anime.png
 ├── index.html
 ├── package.json
