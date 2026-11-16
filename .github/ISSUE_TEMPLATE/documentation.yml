@@ -1,0 +1,24 @@
+name: 📚 Documentation improvement
+description: Report missing, unclear, or incorrect project documentation.
+title: "[Docs]: "
+labels: ["documentation", "needs-triage"]
+body:
+  - type: input
+    id: document
+    attributes:
+      label: Document or section
+      placeholder: README.md, docs/api.md
+    validations:
+      required: true
+  - type: textarea
+    id: issue
+    attributes:
+      label: What is unclear or incorrect?
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+    validations:
+      required: true
