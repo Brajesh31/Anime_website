@@ -204,6 +204,16 @@ flowchart TD
     L --> P
 ```
 
+## 🖼️ Architecture and flow visuals
+
+The repository includes editable Mermaid sources and standalone SVG diagrams:
+
+- [System architecture](docs/diagrams/system-architecture.svg)
+- [Anime discovery journey](docs/diagrams/anime-user-flow.svg)
+- [Playback request flow](docs/diagrams/playback-flow.svg)
+
+These are technical illustrations. They are not presented as screenshots of the running interface. Real route captures remain pending in the [demo gallery guide](docs/demo/README.md).
+
 ## 🌐 External services and content rights
 
 The browser currently calls third-party anime and manga services. Their uptime, response shape, CORS behavior, rate limits, media availability, and terms can change independently of this repository.
