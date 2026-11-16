@@ -50,3 +50,8 @@ These validate static code and production bundling. They do not verify third-par
 ## Evidence capture
 
 Store genuine browser captures in `docs/demo/` only after checking that they contain no secrets, personal data, or unauthorized media. Include route and viewport in the filename or capture log. Use `docs/demo/README.md` as the process.
+
+
+## Current baseline debt
+
+The initial CI run exposed existing ESLint failures across legacy source components (unused imports/state, prop validation, duplicate declarations, undefined identifiers, missing React list keys, and a CommonJS config global). These findings predate the documentation-only additions. Lint is currently reported as an advisory CI step so the production build and documentation-link checks can still run. The errors should be fixed in focused source changes; do not treat an advisory lint result as a clean lint pass.
