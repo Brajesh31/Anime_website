@@ -1,17 +1,36 @@
-# 📈 Observability and diagnostics
+# 🔎 Observability and diagnostics
 
 ## Current state
-There is no monitoring platform, centralized telemetry, error-reporting service, or backend logging. Some components write HTTP response/error objects to the browser console.
+There is no dedicated telemetry SDK, metrics backend, tracing system, or error-reporting service. Diagnostics are primarily browser developer tools and console statements in components.
 
-## Local diagnostics
-Use browser developer tools to inspect console warnings, network status and timing, CORS failures, response shape, media errors, and React runtime exceptions.
+## Evidence to collect for a failed request
+- Route and sanitized identifier.
+- Request method and URL with sensitive query values removed.
+- HTTP status and response content type.
+- CORS/network error text.
+- Sanitized response shape.
+- Browser and viewport.
+- Commit/deployment version.
 
-## Future instrumentation
-- Count request outcomes without collecting unnecessary search terms.
-- Use coarse error categories rather than logging complete provider payloads.
-- Redact tokens, cookies, authorization headers, and personal data.
-- Monitor rate-limit responses.
-- Add client error boundaries.
-- Keep analytics privacy-aware and disclosed.
+Never capture authorization headers, cookies, tokens, personal data, or full private payloads.
 
-Do not publish invented uptime, latency, or usage analytics.
+## Diagnostic categories
+- **Navigation:** route mismatch, bad relative URL, missing SPA fallback.
+- **Build:** dependency resolution, Vite transform, production bundle.
+- **Provider:** DNS, network, HTTP error, rate limit, CORS, changed schema.
+- **Rendering:** missing fields, invalid arrays, image load failure.
+- **Playback:** absent source, unsupported format, remote host denial.
+- **Deployment:** rewrite mismatch, stale assets, cache behavior.
+
+## Recommended future instrumentation
+If error reporting is added, collect minimal technical context. Define retention, access control, user notice, and opt-out requirements before collecting user data. Avoid sending complete provider responses.
+
+## Useful health signals
+- Route-level JavaScript error rate.
+- Search request success/error/empty counts.
+- Metadata request failure categories.
+- Playback metadata availability, separately from actual playback success.
+- Build/deployment status.
+- Accessibility and route test results.
+
+No current metric values are asserted. Establish a baseline before publishing dashboards or targets.

@@ -175,10 +175,30 @@ erDiagram
  USER ||--o{ VIEWING_PROGRESS : tracks
  CATALOG_ITEM ||--o{ WATCHLIST_ITEM : referenced_by
  CATALOG_ITEM ||--o{ VIEWING_PROGRESS : referenced_by
- USER { string id string identity_subject datetime created_at }
- CATALOG_ITEM { string id string content_type string provider_reference string display_title }
- WATCHLIST_ITEM { string id string user_id string catalog_item_id datetime created_at }
- VIEWING_PROGRESS { string id string user_id string catalog_item_id string progress_reference datetime updated_at }
+ USER {
+  string id
+  string identity_subject
+  datetime created_at
+ }
+ CATALOG_ITEM {
+  string id
+  string content_type
+  string provider_reference
+  string display_title
+ }
+ WATCHLIST_ITEM {
+  string id
+  string user_id
+  string catalog_item_id
+  datetime created_at
+ }
+ VIEWING_PROGRESS {
+  string id
+  string user_id
+  string catalog_item_id
+  string progress_reference
+  datetime updated_at
+ }
 ```
 
 **This ER diagram is a future design sketch only.** The current repository has no database, users, watchlist, or viewing-progress persistence. Do not create migrations from it without a reviewed product and security decision.

@@ -1,27 +1,33 @@
 # ADR-0001: Client-side React single-page application
 
-- **Status:** Accepted, records the current architecture
+- **Status:** Accepted as the current implementation record
 - **Date:** 2026-11-16
+- **Decision scope:** Frontend application composition
 
 ## Context
-The repository uses React 18 and Vite. React Router selects page components in the browser. No application backend or database exists in the current tree.
+The repository is built with React 18 and Vite. It mounts a browser application from src/main.jsx and uses React Router DOM to map paths to page components. The current product areas are primarily interactive browser screens that request catalog and playback metadata from external services.
 
 ## Decision
-Retain the client-side SPA for the prototype. Use Vite for development and production bundling and React Router for route selection.
+The current application remains a client-side React SPA. Vite is retained as the development server and production bundler. Browser routing remains the route composition mechanism.
+
+## Alternatives considered
+- **Multi-page application:** would require a different route/document architecture and is not necessary to describe the current implementation.
+- **Server-rendered React:** could improve initial HTML and server-side integration control, but no server-rendering architecture currently exists.
+- **Backend-for-frontend:** could centralize provider calls and protect private credentials, but introduces an owned server and operational responsibilities that are not currently present.
+- **Native/mobile client:** outside the current repository architecture.
 
 ## Consequences
-### Benefits
-- Straightforward local setup.
-- Component-based page composition.
-- Static hosting can serve the built application.
-- Existing routes can evolve incrementally.
+### Positive
+- Simple local development and static production build.
+- Existing React components can be composed by route.
+- No application server is required for the current public frontend behavior.
 
-### Trade-offs
-- Hosting must provide nested-route fallback.
-- Browser-side calls expose endpoint usage and cannot safely contain private credentials.
-- Provider availability and CORS affect app behavior.
-- Client state is not durable.
-- Complex provider integrations may eventually need a server-side adapter.
+### Negative
+- Provider calls from the browser expose endpoint structure and depend on CORS.
+- Private provider credentials cannot safely be stored in client variables.
+- Client-side route refresh depends on hosting fallback configuration.
+- External provider response changes can break screens.
+- There is no server-side persistence or authorization layer.
 
-## Revisit when
-The product needs private provider credentials, user accounts, durable progress, server-side caching, moderation, or controlled media delivery.
+## Follow-up decisions
+A backend or BFF should be proposed only when a concrete requirement exists, such as private credentials, provider contract normalization, permitted caching, or user-owned persistence. Any such proposal needs security, privacy, deployment, and cost analysis.

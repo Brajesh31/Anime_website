@@ -1,38 +1,49 @@
 # 🌸 Project overview
 
-## Purpose
+## What this repository is
+Anime Website is a React 18 and Vite 5 single-page application. It contains a small landing page, anime search/recent episode screens, anime metadata and episode grouping, two playback screens, a manga search/detail experiment, and a light-novel placeholder.
 
-Anime Website is a React single-page prototype that groups experiments for anime discovery, manga catalog access, episode metadata, and playback. It provides a browser UI and uses remote services for catalog and media information.
+The application is browser-first. Page components issue requests to external services and store returned values in local React state. There is no project-owned backend, database, authentication provider, or media delivery system.
 
-## Intended audiences
+## Why it exists
+The repository explores:
+- React component composition.
+- Browser-based route navigation.
+- Search and metadata requests.
+- Episode grouping and navigation.
+- Passing a remote media URL into a player component.
+- Manga API/proxy experiments.
+- Vite development and static deployment configuration.
 
-- Developers learning React component composition and route design.
-- Contributors exploring browser-side HTTP integration.
-- Reviewers inspecting a prototype with anime, manga, and light-novel route concepts.
+## What it is not
+It is not a complete streaming service, licensed media catalog, production recommendation engine, social platform, or full-stack user library. It does not include subscriptions, user accounts, persistent watch history, or a database.
 
-This repository is not a content-hosting platform, an authenticated subscription service, or a production media delivery backend.
+## Current product areas
 
-## Product areas
+| Area | Component | State |
+|---|---|---|
+| Home | Home.jsx | Basic |
+| Anime search/recent | AnimeHome.jsx | Partial |
+| Anime detail | AnimeDescPage.jsx | Partial |
+| Standard player | AnimePlayer.jsx | Partial |
+| Recent player | RecentAnimePlayer.jsx | Partial |
+| Manga catalog | Mangadex22.jsx | Experimental |
+| Manga detail | MangaDesc.jsx | Experimental |
+| Light novels | LightNHome.jsx | Placeholder |
 
-### Anime
-The anime route provides a search form and requests recent episode data. A selected search result links to an anime detail route. The detail component requests metadata and divides returned episodes into groups of ten. Player components request a remote episode response and pass a selected source to ReactPlayer.
+## Technical shape
+- React 18 provides UI composition.
+- React Router DOM 6 maps browser paths to components.
+- Axios issues HTTP requests.
+- ReactPlayer renders a player for a selected remote URL.
+- Tailwind CSS and project CSS provide presentation.
+- Vite handles local development and production bundling.
+- Vite proxy and Vercel rewrites handle different environments and are not interchangeable.
 
-### Manga
-The manga route uses a MangaDex-oriented component and a proxy path configured in Vite and Vercel. The current manga rendering and detail experience are experimental and should not be described as a complete reader.
+## Current maturity and evidence
+The latest recorded CI run before the expanded documentation passed install, production build, and documentation-link checks. ESLint remains advisory because legacy source findings exist. There is no browser E2E suite, formal accessibility audit, or verified browser screenshot gallery.
 
-### Light novels
-The light-novel route currently renders placeholder text. It establishes a route boundary only.
-
-## Runtime boundaries
-
-The React client owns rendering, route selection, local component state, and browser-side requests. Third-party endpoints own remote response content and availability. The repository does not include an application backend, user database, identity system, billing platform, or media storage.
-
-## Success criteria for a future stable release
-
-1. Every visible route has a defined purpose and consistent navigation.
-2. Remote requests have explicit loading, empty, timeout, and error states.
-3. Provider response fields are validated before use.
-4. Media is used only when permitted by source terms and rights.
-5. Keyboard and assistive-technology flows work.
-6. Tests cover route behavior and representative API responses.
-7. Deployment supports direct navigation to nested SPA routes.
+## How to use this repository
+- Learners: inspect the route table, components, request flow, and diagrams.
+- Contributors: read CONTRIBUTING.md and the architecture/API guides before changing behavior.
+- Maintainers: use the route, risk, QA, release, and traceability documents to keep the project honest and verifiable.
