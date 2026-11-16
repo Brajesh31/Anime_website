@@ -1,12 +1,16 @@
 #!/usr/bin/env python3
-"""Validate local Markdown links in the repository without third-party packages."""
+"""Validate repository-owned Markdown links without third-party packages."""
 from pathlib import Path
 import re
 import sys
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
-MARKDOWN = sorted(ROOT.rglob("*.md"))
+EXCLUDED = {"node_modules", ".git", "dist", "coverage"}
+MARKDOWN = sorted(
+    path for path in ROOT.rglob("*.md")
+    if not any(part in EXCLUDED for part in path.relative_to(ROOT).parts)
+)
 LINK_RE = re.compile(r"!??\[[^\]]*\]\((?:<([^>]+)>|([^\s)]+))(?:\s+[^)]*)?\)")
 
 def main() -> int:
@@ -38,7 +42,7 @@ def main() -> int:
         print("Documentation link validation failed:")
         print("\n".join(f"- {error}" for error in errors))
         return 1
-    print(f"Documentation link validation passed: {checked} local links across {len(MARKDOWN)} Markdown files.")
+    print(f"Documentation link validation passed: {checked} local links across {len(MARKDOWN)} repository Markdown files.")
     return 0
 
 if __name__ == "__main__":
