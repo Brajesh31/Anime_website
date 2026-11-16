@@ -1,0 +1,37 @@
+name: ✨ Feature request
+description: Propose a focused improvement to the existing application.
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: input
+    id: area
+    attributes:
+      label: Affected area
+      placeholder: Anime catalog, manga route, playback
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem to solve
+      description: Explain the user need, not just the proposed UI.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      placeholder: "- [ ] ...\n- [ ] ..."
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Provider, licensing, privacy, or accessibility considerations
+      description: Identify external services and constraints, if any.
